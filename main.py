@@ -9,12 +9,12 @@ from langchain import hub
 from tqdm import tqdm
 from config import *
 import logging
-logging.getLogger().setLevel(logging.ERROR)
 
+logging.getLogger().setLevel(logging.ERROR)
 class BGEEmbeddings(Embeddings):
     def __init__(self, model):
         self.model = model
-        self.client = OpenAI(base_url="http://localhost:8085/v1", api_key="lm-studio")
+        self.client = OpenAI(base_url=BASE_URL, api_key=API_KEY)
 
     def embed(self, text):
         try:
@@ -43,37 +43,38 @@ class BGEEmbeddings(Embeddings):
         raise NotImplementedError
         return await run_in_executor(None, self.embed_query, text)
 
-# read and split text with overlapping chunks
-text = open("wiki_nlp.txt", encoding="utf-8").read()
-text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+def test():
+    # read and split text with overlapping chunks
+    text = open("wiki_nlp.txt", encoding="utf-8").read()
+    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 
-# Create the first 5 documents based on the chunks created
-docs = text_splitter.split_text(text)[:5]
+    # Create the first 5 documents based on the chunks created
+    docs = text_splitter.split_text(text)[:5]
 
-# Create the embeddings and the retriever
-embeddings = BGEEmbeddings(model=EMBEDDING_MODEL)
-db = FAISS.from_texts(docs, embeddings)
-retriever = db.as_retriever()
+    # Create the embeddings and the retriever
+    embeddings = BGEEmbeddings(model=EMBEDDING_MODEL)
+    db = FAISS.from_texts(docs, embeddings)
+    retriever = db.as_retriever()
 
-# incase we want to save the db
-# db.save_local("faiss_db")
-# retriever = FAISS.load_local("faiss_db", embeddings, allow_dangerous_deserialization=True)
-# retriever = retriever.as_retriever()
+    # incase we want to save the db
+    # db.save_local("faiss_db")
+    # retriever = FAISS.load_local("faiss_db", embeddings, allow_dangerous_deserialization=True)
+    # retriever = retriever.as_retriever()
 
-# Query the retriever
-query = "Rule-based vs. statistical NLP"
-docs = retriever.invoke(query)
-print(docs)
+    # Query the retriever
+    query = "Rule-based vs. statistical NLP"
+    docs = retriever.invoke(query)
+    print(docs)
 
-tool = create_retriever_tool(
-    retriever=retriever,
-    name="history_of_nlp",
-    description="Searches are turns information about the history of NLP.",
-)
+    tool = create_retriever_tool(
+        retriever=retriever,
+        name="history_of_nlp",
+        description="Searches are turns information about the history of NLP.",
+    )
 
-llm = ChatOpenAI(model=MODEL, base_url=BASE_URL, api_key=API_KEY, verbose=True)
-prompt = hub.pull("hwchase17/openai-tools-agent")
-agent = create_openai_tools_agent(llm, tools=[tool], prompt=prompt)
-agent_executor = AgentExecutor(agent=agent, tools=[tool], verbose=True)
+    llm = ChatOpenAI(model=MODEL, base_url=BASE_URL, api_key=API_KEY, verbose=True)
+    prompt = hub.pull("hwchase17/openai-tools-agent")
+    agent = create_openai_tools_agent(llm, tools=[tool], prompt=prompt)
+    agent_executor = AgentExecutor(agent=agent, tools=[tool], verbose=True)
 
-print(agent_executor.invoke({"input": "What is the history of NLP?"}))
+    print(agent_executor.invoke({"input": "What is the history of NLP?"}))
