@@ -14,7 +14,6 @@ generate = lambda prompt: client.chat.completions.create(
             temperature=0.7,
         )
 
-
 def generate_questions(num_questions=5, mc_questions=1, code_questions=1):
     lectures = pickle.load(open("dataset.pkl", "rb")) #type: list[Lecture]
     lectures = list(lectures.values())
@@ -56,5 +55,9 @@ def generate_questions(num_questions=5, mc_questions=1, code_questions=1):
     pickle.dump(module_questions, open("questions.pkl", "wb"))
     return module_questions
 
-generate_questions(5, 1, 1)
 
+questions = pickle.load(open("questions.pkl", "rb"))
+for i, question in enumerate(questions):
+    print(f"Questions for lecture {i+1} - {question.lecture.topic}")
+    print(question)
+    print("\n\n")
