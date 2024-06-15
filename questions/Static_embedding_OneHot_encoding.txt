@@ -1,0 +1,7 @@
+
+1. What is the process called that converts words into vectors, which can be used in machine learning models?
+Answer: Word embedding
+2. In a one-hot encoding representation, how many dimensions does each word have if there are 10,000 unique words in the vocabulary?
+3. Describe the difference between a static word embedding and a dynamic word embedding. Provide an example of each.
+4. Given the sentence "The cat sat on the mat," what would be the one-hot encoded vectors for the words 'the', 'cat,' 'sat,' 'on,' 'the,' 'mat'?
+5. Explain how expert knowledge can influence the choice of dimensions when creating word embeddings. Provide an example of a domain where this might be particularly important and why.

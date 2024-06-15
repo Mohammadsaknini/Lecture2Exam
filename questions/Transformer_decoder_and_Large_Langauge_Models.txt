@@ -1,0 +1,5 @@
+1. What is the main difference between a transformer encoder and decoder?
+    2. In what ways can human feedback be used to improve language model performance?
+    3. How does the process of summarizing text using a reward model work?
+    4. What role do large language models play in NLP tasks such as sentiment analysis or question answering?
+    5. How many steps are there in the process of "learning to summarize from human feedback"? (A) Three, (B) Four, (C) Five.

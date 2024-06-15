@@ -1,0 +1,24 @@
+----------------------------------------------------------------------------------
+
+    1. Given the following corpus, calculate the term frequency (tf) and document frequency (df) for the word "animal". Then calculate the inverse document frequency (idf), and finally the TF-IDF score for this word in this corpus.
+        a) What is the difference between Term Frequency (TF) and Inverse Document Frequency (IDF)?
+        b) tf(animal) = ..., df(animal) = ..., idf(animal) = ..., TF-IDF(animal) = ...
+
+    2. Consider the given corpus and assuming we want to find documents that contain the word "command" but not the word "linux". Which terms would you add or remove from the idf calculation in order to get a good representation of such documents?
+        a) How many documents contain the word "command"?
+        b) Calculate the TF-IDF score for the term "command" in this corpus.
+
+    3. Suppose you have a new document that contains the sentence "My cat is not playful". Based on the given information, calculate the TF and IDF values for each term in this document, as well as its TF-IDF score.
+         a) Calculate the TF-IDF score for the word "cat" in this document.
+         b) Which terms in this document have a positive TF-IDF score?
+         c) Assume we want to find documents similar to this one, which terms would you include in your query?
+
+    4. Explain the difference between using raw term frequency (TF) and TF-IDF for text classification tasks. Provide an example of when each method might be preferred.
+        a) Given a corpus containing news articles about various topics, how could you use TF-IDF to extract features from this data for text classification?
+        b) Which method would be more suitable for identifying the main topic of a document: raw term frequency or TF-IDF?
+         c) Provide an example of a real-world scenario where each method might be preferred.
+
+    5. Consider a large corpus of research papers in computer science, and suppose you want to find documents related to "deep learning" but not those that include the term "recurrent neural networks". Which terms would you add or remove from the idf calculation in order to get a good representation of such documents?
+        a) Calculate the TF-IDF score for the term "deep learning" in this corpus.
+        b) How many documents contain both the terms "deep learning" and "recurrent neural networks"?
+        c) Which terms should be included in the idf calculation to get good results for finding documents related to "deep learning" but not those containing "recurrent neural networks"?

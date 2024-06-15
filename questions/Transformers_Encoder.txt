@@ -1,0 +1,6 @@
+
+1. In the context of NLP, what is the purpose of positional encoding? Provide an example using the given sentence "I like cake."
+2. Explain how self-attention mechanisms are used in transformer encoders to understand context and relationships within input sequences.
+3. What role does the Transformer Encoder play in understanding the meaning and context of text data? Provide an example of its application in a real-world NLP task.
+4. In the BERT model, which tasks are the model trained on during pre-training? Explain each task's significance in teaching the model about language context.
+5. Using the given figure "Fig. 17: BERT architecture (I)", describe how the masked sentence A and B pair is used for pre-training the BERT model to learn relationships between sentences.

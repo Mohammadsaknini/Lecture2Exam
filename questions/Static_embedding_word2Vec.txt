@@ -1,0 +1,6 @@
+
+    1. How does the Word2Vec algorithm use negative sampling in its skip-gram model to improve performance?
+    2. Considering the given diagram, explain how the word "brown" would be represented as a vector using the Word2Vec algorithm's static embeddings.
+    3. In the context of NLP, what is the main goal of creating negative examples for training a Word2Vec model?
+    4. If you have a dataset with 10,000 unique words and want to generate negative samples for each positive example, approximately how many negative examples would be needed?
+    5. Given the following sentence: "The quick brown fox jumps over the lazy dog.", which two words are semantically similar according to Word2Vec's static embeddings based on their proximity in the vector space? (Multiple choice question: a) quick and brown; b) brown and lazy; c) fox and jumps)

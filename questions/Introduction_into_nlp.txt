@@ -1,0 +1,10 @@
+
+    1. What is a chat bot and how does it integrate with various platforms like IRC, Discord, or social media? Provide an example of a general-purpose chatbot system.
+    A) Siri
+    B) Alexa
+    C) ChatGPT
+    D) A rule-based chatbot for customer support on a website
+    2. Which NLP tasks are commonly used in text generation, image generation from text (T2I), and question answering? List at least three tasks for each category.
+    3. Describe the differences between text classification and sentiment analysis. Provide an example of how each task can be applied to real-world scenarios.
+    4. Discuss the challenges in NLP, including ambiguities, computational resources, speech recognition, vectorization, typos, dataset sizes, languages, and explainability. Which challenge do you think is the most significant, and why?
+    5. What are some common application areas for NLP tasks such as text classification, sentiment analysis, machine translation, keyword extraction, text summarization, image generation from text (T2I), and question answering? Provide examples of how each task can be applied to real-world scenarios.

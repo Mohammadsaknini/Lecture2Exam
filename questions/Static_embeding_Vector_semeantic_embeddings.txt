@@ -1,0 +1,7 @@
+-----------------------------------------------------------------------------
+
+1) What does the term "vector semantics" refer to in Natural Language Processing (NLP)?
+2) Explain how cosine similarity is used as a metric for comparing word vectors.
+3) Why do word embeddings, like static and dynamic embeddings, reflect cultural biases? Provide two examples.
+4) Given the sentence "Paris : France :: Tokyo : x", what value of x would make this analogy true according to the parallelogram method?
+5) Which of the following words is likely to have a higher dot product with the word "information" based on the given data: "cherry" or "digital"? Explain your reasoning.

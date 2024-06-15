@@ -1,0 +1,35 @@
+
+    1. In the context of statistical language models, what is the role of add-one estimation?
+A) It's a method for handling unknown words in text data.
+B) It's used to improve the performance of caching models.
+C) It's an algorithm for handling out-of-vocabulary words.
+D) It's a technique for predicting the likelihood of word sequences based on historical data.
+Answer: A
+
+    2. Which smoothing method is used primarily in text categorization tasks?
+A) Add-one smoothing
+B) Stupid backoff
+C) Extended Interpolated Kneser-Ney
+D) Simple interpolation
+Answer: A
+
+    3. In statistical language models, what is the difference between closed and open vocabulary tasks?
+A) Closed vocabulary tasks involve handling known words only, while open vocabulary tasks allow for unknown or out-of-vocabulary words.
+B) Open vocabulary tasks involve handling only known words, while closed vocabulary tasks allow for both known and unknown words.
+C) Open vocabulary tasks require more computational power to handle large datasets, while closed vocabulary tasks are more efficient.
+D) Closed vocabulary tasks involve storing all possible n-grams in memory, while open vocabulary tasks rely on approximate language models.
+Answer: A
+
+    4. Why is it important to use discriminative models in NLP?
+A) Discriminative models are used to improve the performance of caching models by selecting weights that fit the training data.
+B) Discriminative models help in handling unknown words or out-of-vocabulary words more effectively.
+C) Discriminative models aim to choose n-gram weights based on their ability to improve a specific task, rather than fitting the training set.
+D) Discriminative models are used primarily for text categorization tasks and perform poorly in speech recognition.
+Answer: C
+
+    5. Which smoothing method is best suited for very large N-grams like those found in web data?
+A) Add-one smoothing
+B) Extended Interpolated Kneser-Ney
+C) Stupid backoff
+D) Simple interpolation
+Answer: C (Stupid backoff)

@@ -1,0 +1,8 @@
+------------------------------------------------------------------------------
+    1. In the context of NLP, what is a Retrieval Augmented Generator (RAG) and how does it help in document retrieval and generation?
+    (A) It's a neural network architecture that generates responses based on user queries.
+    (B) It's a technique for reducing the context size of prompts by using a selection of documents instead of all documents.
+    2. What is the role of vector search in NLP and how does it help retrieve semantically similar documents?
+3. Explain the concept behind the attention mechanism in transformer models and why it's important for handling long-range dependencies between words or tokens.
+4. Discuss some ideas for extending the context length in transformer models, such as state spaces instead of attention or hierarchical attention.
+5. What are some challenges in implementing a Retrieval Augmented Generator in a corporate environment and how can they be addressed? (Hint: Consider issues like data security and competing groups building the same thing.)

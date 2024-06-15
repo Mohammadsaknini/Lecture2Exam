@@ -1,0 +1,6 @@
+
+    1. In the context of fine-tuning large language models, what is a low-rank assumption, and how does it contribute to efficient adaptation?
+    2. Given two matrices A and B, describe how they are used in the LoRa method for fine-tuning large language models.
+    3. What are some advantages of using parameter-efficient fine-tuning with low-rank adaptation for large language models? (Multiple choice: a) Saves computational resources b) Requires more data c) Increases model complexity d) Improves training time)
+    4. Discuss the challenges associated with choosing the right weight matrices to fine-tune in the context of large language models.
+    5. How does the low-rank assumption impact the performance of fine-tuned models in large language models? (Bonus: Can you discuss potential ways to mitigate this issue?)

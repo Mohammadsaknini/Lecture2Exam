@@ -1,0 +1,11 @@
+1. What are Recurrent Neural Networks (RNNs) used for in Natural Language Processing (NLP)? Provide two applications of RNNs in NLP.
+    2. What is the difference between an encoder and a decoder in the context of recurrent neural networks? Provide examples of when you would use each.
+    3. Explain how Long Short-Term Memory (LSTM) cells help overcome the vanishing gradient problem in RNNs and why they are important for NLP tasks.
+    4. What is the complexity of an LSTM network in terms of parameters? Provide a mathematical representation if possible.
+     
+Multiple Choice Question: 
+    Which type of recurrent neural network is used to capture context from both past and future time points in a sequence?
+    A) Encoder RNN
+    B) Decoder RNN
+    C) Feedforward Neural Network
+    D) Bidirectional RNN

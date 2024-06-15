@@ -5,9 +5,12 @@ from tqdm import tqdm
 from config import *
 import pymupdf
 import warnings
+import pickle
+import torch
 import re
 import os
 import io
+
 warnings.filterwarnings("ignore")
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 
@@ -24,11 +27,11 @@ class Lecture():
 class Dataset():
 
     def __init__(self):
-        self._img_model = AutoModel.from_pretrained('openbmb/MiniCPM-Llama3-V-2_5-int4', trust_remote_code=True, device_map="cuda")
-        self._tokenizer = AutoTokenizer.from_pretrained('openbmb/MiniCPM-Llama3-V-2_5-int4', trust_remote_code=True, device_map="cuda")
+        self._img_model = AutoModel.from_pretrained('openbmb/MiniCPM-Llama3-V-2_5', trust_remote_code=True, torch_dtype=torch.float16)
+        self._tokenizer = AutoTokenizer.from_pretrained('openbmb/MiniCPM-Llama3-V-2_5', trust_remote_code=True)
+        self._img_model = self._img_model.to("cuda")
         self._img_model.eval()
         self.lectures = {} #type: dict[int, Lecture]
-        self.create_dataset()
 
     def create_dataset(self):
         
@@ -44,16 +47,25 @@ class Dataset():
                 clip = page.rect 
                 clip.y1 = 505 # remove footer
                 text = page.get_textpage(clip=clip).extractText()
+                table: pymupdf.table.Table = None
+
+                tables = page.find_tables()
+                tables = tables.tables[1:]
+                for table in tables:
+                    text += table.to_pandas().to_html()
 
                 # generate a description for the image if any exists
                 description = None
                 if page.get_images():
                     img = page.get_pixmap(dpi=300, clip=page.bound()).tobytes()
                     img = Image.open(io.BytesIO(img)).convert("RGB")
-                    context = "\n\n".join(slides)
-                    pattern = r'\[IDS\].*?\[IDE\]'
-                    context = re.sub(pattern, '', context) # becasue the model will just copy and paste the prompt
-                    description = self.describe_image(topic, context, img)
+                    
+                    # not a good idea because the model is blowing up and the attention is all over the place
+                    # context = "\n\n".join(slides)
+                    # pattern = r'\[IDS\].*?\[IDE\]'
+                    # context = re.sub(pattern, '', context) # becasue the model will just copy and paste the prompt
+                    
+                    description = self.describe_image(topic, img)
 
                 if description:
                     text += "\n" + description + "\n"
@@ -85,36 +97,43 @@ class Dataset():
 
         return completion.choices[0].message.content
 
-    def describe_image(self, topic: str, context: str, img: Image):
+    def describe_image(self, topic: str, img: Image):
         """
         Given a context and an image, generate a description for the image
 
         Args:
-            context (str): The context of the lecture from the first slide to the current slide
+            topic (str): The topic of the lectur
             img (Image): The image to describe
         """
-        prompt = "Explain the image within the slide with the help of the context of the lecture."
+        prompt = "describe what you see knowing we are in a NLP lecture"
         messages = [
-            {"role":"user","content":f"The lecture is about the topic: {topic}. \n context: \n{context}"},
+            {"role":"user","content":f"The lecture is about the topic: {topic}"},
             {"role":"user","content":prompt}
         ]
         res = self._img_model.chat(
             image=img,
             msgs=messages,
-            # sampeling=True,
             tokenizer=self._tokenizer,
-            temperature=0.2,
-            system_prompt='You are an expert of linking lecture context to a given image and describing it in a maximum of 50 words.',
+            temperature=0.7,
+            max_new_tokens=500,
+            system_prompt='You are a helpful assistant that describes an image and relate it to the given topic',
         )
 
         return f"[IDS] {res} [IDE]"
-    
-
-import pickle
 
 if __name__ == "__main__":
     # dataset = Dataset()
+    # dataset.create_dataset()
     # with open("dataset.pkl", "wb") as f:
     #     pickle.dump(dataset.lectures, f)
-    lecutres = pickle.load(open("dataset.pkl", "rb"))
+    lectures = pickle.load(open("dataset.pkl", "rb"))
+    with open("data.txt", "w", encoding="utf-8") as f:
+        for lecture in lectures.values():
+            f.write("[Lecture Start]\n\n")
+            f.write(f"------------{lecture.topic}------------\n")
+            f.write(f"{lecture.content}")
+            f.write("[Lecture End]\n\n")
+
+
+
 
