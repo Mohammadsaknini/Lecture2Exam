@@ -1,88 +1,60 @@
-from langchain.agents import AgentExecutor, create_openai_tools_agent
-from langchain.tools.retriever import create_retriever_tool
-from langchain_text_splitters import CharacterTextSplitter
-from langchain_community.vectorstores import FAISS
-from langchain_core.embeddings import Embeddings
-from langchain_openai import ChatOpenAI
-from dataset import Lecture
+from dataset import Lecture, Questions
 from openai import OpenAI
-from langchain import hub
-from tqdm import tqdm
+from prompts import *
 from config import *
 import pickle
-import logging
-import re
 
-logging.getLogger().setLevel(logging.ERROR)
-
-class BGEEmbeddings(Embeddings):
-    def __init__(self, model):
-        self.model = model
-        self.client = OpenAI(base_url=BASE_URL, api_key=API_KEY)
-
-    def embed(self, text: str):
-        text = text.replace("\n", " ")
-        text = re.sub(r'[^\x00-\x7F]+', '', text) # remove all non-ascii characters
-        return self.client.embeddings.create(input=[text], model=self.model).data[0].embedding
-        
-    def embed_documents(self, texts):
-        embeddings = []
-        for text in tqdm(texts):
-            text = text.replace("\n", " ")
-            text = re.sub(r'[^\x00-\x7F]+', '', text)
-            temp = self.embed(text)
-            if temp is None:
-                continue
-            embeddings.append(temp)
-        return embeddings
-
-    def embed_query(self, text):
-        return self.embed(text)
-
-    async def aembed_documents(self, texts):
-        raise NotImplementedError
-        return await run_in_executor(None, self.embed_documents, texts)
-
-    async def aembed_query(self, text):
-        raise NotImplementedError
-        return await run_in_executor(None, self.embed_query, text)
-
-def generate_questions():
-    lectures = pickle.load(open("dataset.pkl", "rb")) #type: list[Lecture]
-    lectures = list(lectures.values())
-
-    PROMPT = """
-    Create exam questions based for the topic : {topic}
-
-    Lecture content:
-    {content}
-
-    Generate 5 questions based on the content above, make sure they are relevant and challenging.
-
-    MAKE SURE TO INCLUDE at max 1 multiple choice question
-    DO NOT INTRODUCE ANY QUESTIONS THAT ARE NOT BASED ON THE CONTENT ABOVE
-    THE GENERTED QUESTIONS SHOULD NOT ASKED ABOUT RESEARCH PAPERS OR AUTHORS
-    """
-
-    client = OpenAI(base_url=BASE_URL, api_key=API_KEY)
-
-    for i, lecture in enumerate(lectures):
-        completion = client.chat.completions.create(
+client = OpenAI(base_url=BASE_URL, api_key=API_KEY)
+generate = lambda prompt: client.chat.completions.create(
             model=MODEL,
             messages=[
                 {"role": "system", "content": "You are a helpful assistant that writes exam questions for a NLP course. You are given lecture slides and asked to generate questions based on the content."},
-                {"role": "user", "content": PROMPT.format(topic=lecture.topic, content=lecture.content)}
+                {"role": "user", "content": prompt}
             ],
             temperature=0.7,
         )
 
+
+def generate_questions(num_questions=5, mc_questions=1, code_questions=1):
+    lectures = pickle.load(open("dataset.pkl", "rb")) #type: list[Lecture]
+    lectures = list(lectures.values())
+    module_questions = []  #type: list[Questions]
+
+    for i, lecture in enumerate(lectures):
+        lecture_questions = Questions(lecture)
+        if lecture.dependencies is not None:
+            if len(lecture.dependencies) == 0 and code_questions > 1:
+                print(f"No coding question for lecture {i+1} - {lecture.topic}")
+
+
+        ft_questions = num_questions - mc_questions - code_questions
+        if lecture.dependencies is None:
+            ft_questions += code_questions
+
+        # ft questions
+        questions = generate(FREE_TEXT_QUETIONS.format(topic=lecture.topic, content=lecture.content, num_questions=ft_questions))        
+        lecture_questions.add_free_text(questions.choices[0].message.content)
+
+        # mc questions
+        for _ in range(mc_questions):
+            questions = generate(MC_QUESTION.format(topic=lecture.topic, content=lecture.content))
+            lecture_questions.add_question(questions.choices[0].message.content)
+
+        # code questions
+        if lecture.dependencies is not None:
+            for _ in range(code_questions):
+                code_content = [i for i in lecture.dependencies]
+                questions = generate(CODE_QUESTION.format(topic=lecture.topic, content=code_content))
+                lecture_questions.add_question(questions.choices[0].message.content)
+
+        module_questions.append(lecture_questions)
+
         with open(f"questions/{lecture.topic}.txt", "w", encoding="utf-8") as f:
-            f.write(completion.choices[0].message.content)
-
-        print(f"Questions for lecture {i+1} - {lecture.topic}")
-        print("=====================================")
-        print(completion.choices[0].message.content)
-        print("\n\n")
+            f.write(str(lecture_questions))
 
 
-generate_questions()
+    pickle.dump(module_questions, open("questions.pkl", "wb"))
+    return module_questions
+
+generate_questions(5, 1, 1)
+

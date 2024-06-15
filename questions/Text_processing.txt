@@ -1,17 +1,35 @@
----------------------------------------------------------------------------------------
+[Question Start]In the context of BPE tokenization, what is the significance of merging less frequent pairs before more frequent ones during the training phase?[Question End]
 
-1) What is the role of regular expressions in text processing? Why are they necessary for NLP tasks? Provide an example of a regular expression and its corresponding matches.
-2) Explain how the BPE algorithm works for tokenization, specifically focusing on merging adjacent symbols to form new tokens. Provide an example of this process with a small corpus.
-3) How does the BPE algorithm handle punctuation marks, such as periods (.)? What rules are used to determine if a period signifies a sentence boundary or part of a word?
-4) Discuss the importance of subword tokenization in NLP and its role in improving models' performance on tasks like language translation and text summarization. Which algorithms are commonly used for this purpose, and what are their key differences?
-5) Analyze the advantages and disadvantages of using byte pair encoding (BPE) as a subword tokenization method. How does it compare to other popular methods, such as WordPiece or Unigram language modeling tokenization? Provide examples of how BPE's tokenization process might affect the performance of an NLP model on specific tasks.
+[Question Start]What role do morphemes play in subword tokenization methods like BPE and why are they often represented as part of a token in text processed by such algorithms? [Question End]
 
-    Question 5:
+[Question Start]In the context of NLP, how might sentence segmentation impact the effectiveness of a byte pair encoding token learner and what precautions can be taken to avoid any negative impact of mis-segmented sentences on the learning process?[Question End]
+
+[Question Start]What is the role of the Byte Pair Encoding (BPE) token learner algorithm in text preprocessing for NLP?
+A) It separates punctuation from words.
+B) It normalizes case folding, making everything lowercase or uppercase as needed.
+C) It learns subword tokens that can represent frequent word subparts and are often morphemes
+D) It performs full stemming of the words in a corpus.[Question End]
+
+[Question Start]Based on the function `get_splits`, what does the dictionary created by this function represent? Can you provide an example of a key and its associated value in the output of this function for the input `pretokenize([["apple", "banana", "apple"], ["apple"]])`?
+
+Code Snippet:
+```python
+from collections import Counter
+from typing import Dict, Tuple
+
+def get_splits(corpus: List[List[str]]) -> Dict[Tuple[str], int]:
+    """Get subword splits of tokens in a corpus.
     
-    Which algorithm among Byte-Pair Encoding (BPE), WordPiece, and Unigram language modeling tokenization is most likely to result in subword units that represent morphemes?
-    
-    A) Byte-Pair Encoding (BPE)
-    B) WordPiece
-    C) Unigram language modeling tokenization
+    Args:
+        corpus (List[List[str]]): A list of sentences where each sentence is represented
+            as a list of tokens.
 
-    Answer: A) Byte-Pair Encoding (BPE)
+    Returns:
+        Dict[Tuple[str], int]: A dictionary where keys are tuples representing subword splits
+            and values are the counts of occurrences of those splits in the corpus.
+    
+    Example: 
+        >>> corpus = [["apple", "banana", "apple"], ["apple"]]
+        >>> get_splits(corpus)
+        {('a', 'p', 'p', 'l', 'e', '</w>'): 3, ('b', 'a', 'n', 'a', 'n', 'a', '</w>'): 1}
+```[Question End]

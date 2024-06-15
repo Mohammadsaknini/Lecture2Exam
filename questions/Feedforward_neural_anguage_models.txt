@@ -1,27 +1,13 @@
+[Question Start]What is the main reason why a simple feedforward neural language model often performs almost as well as more complex models in predicting the next word in a sequence? 
+A) The use of embeddings for words allows the network to find semantic similarities.
+B) It only considers a fixed number of prior words through sliding windows, limiting complexity. 
+C) It is easier and faster to train compared to more complex architectures. 
+D) It does not suffer from the vanishing gradient problem that can affect recurrent neural networks.[Question End]
 
-    1. In the context of simple text classifiers, how can manual feature engineering be used for sentiment analysis? Provide at least three examples of features that could be extracted from a review to help determine its sentiment.
-    Answers:
-         a) Counting positive emoticons and negative emoticons in a given document
-         b) Using the length of the review as a feature
-         c) Detecting negations in the text
-         d) All of the above
-    2. In simple feedforward neural language models, what is used to represent the meaning of words within the model?
-    Answers:
-         a) One-hot encoded vectors
-         b) Word embeddings
-         c) TF-IDF representations
-         d) Context-dependent word representations
-    3. Using the illustration provided, identify and label each component in the Neural Language Model architecture including input, hidden layers, output layer, embedding layer, projection layer, and mathematical notation for conditional probability.
-    Answers:
-         a) Input layer: The text data is fed into this layer as an input.
-         b) Embedding layer: This layer converts words into dense vectors, which are used to represent the semantics of words in the model.
-         c) Hidden layers: These are the layers where complex patterns are detected and learned from the text data.
-         d) Projection layer: It transforms the word embeddings into a space suitable for making predictions or continuations of the input text.
-         e) Output layer: This layer generates the predictions or continuations of the input text based on the learned patterns from the hidden layers.
-         f) Mathematical notations like p(z|...), p(for|...), and V×1 indicate the probabilistic nature of these models and their focus on statistical prediction.
-    4. How can a neural language model use similarity between word embeddings to generalize and predict the next word in a sequence? Provide an example with the help of two words, "cat" and "dog".
-    Answers:
-         The neural language model can use the similarity between the "cat" and "dog" word embeddings to predict the word "fed" when presented with the test data "I forgot to make sure that the dog gets ___". Since "cat" and "dog" are semantically related, their embeddings would be close in the embedding space. The model can leverage this information to generalize and correctly predict the next word as "fed", even though it has not seen that specific context before during training.
-    5. In the context of language modeling, why do feedforward neural language models outperform N-gram language models? Provide one reason and explain how it leads to better performance.
-    Answers:
-         The primary reason is that neural language models can capture complex statistical dependencies and patterns present in natural language data, whereas N-gram language models are limited to considering only local context (i.e., the preceding n-1 words). By using more sophisticated techniques like word embeddings and neural network architectures, feedforward neural language models can learn abstract relationships between words and generate coherent text or respond appropriately in natural language processing tasks.
+[Question Start]Based on the implementation of the `OneHotEncoder` class and its `encode` method in the lecture content, what would be a proper way to call the `encode` function for the token with index 5 (assuming our tokenizer's vocabulary size is 20), and what should be the shape of the output tensor?```python
+# Assuming that we've created an instance of OneHotEncoder:
+encoder = OneHotEncoder(vocab_size=20)
+# To get a one-hot encoded vector for the token at index 5, we would call our method as follows:
+encoding = encoder.encode(5)
+# And the shape of this output tensor should be (20,) which indicates that there are 20 elements in the vector, matching the size of our assumed vocabulary.
+```[Question End]

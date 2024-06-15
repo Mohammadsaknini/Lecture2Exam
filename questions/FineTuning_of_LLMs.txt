@@ -1,6 +1,13 @@
+[Question Start]What is the potential issue with a low-rank assumption in LoRa, and how might it impact model performance?[Question End]
 
-    1. In the context of fine-tuning large language models, what is a low-rank assumption, and how does it contribute to efficient adaptation?
-    2. Given two matrices A and B, describe how they are used in the LoRa method for fine-tuning large language models.
-    3. What are some advantages of using parameter-efficient fine-tuning with low-rank adaptation for large language models? (Multiple choice: a) Saves computational resources b) Requires more data c) Increases model complexity d) Improves training time)
-    4. Discuss the challenges associated with choosing the right weight matrices to fine-tune in the context of large language models.
-    5. How does the low-rank assumption impact the performance of fine-tuned models in large language models? (Bonus: Can you discuss potential ways to mitigate this issue?)
+[Question Start]In few-shot learning, what's the difference between zero-shot and few-shot prompting, and why might one be more effective than the other for certain tasks? [Question End]
+
+[Question Start]How does prefix tuning differ from parameter-efficient fine-tuning methods like LoRa, in terms of their approach to updating parameters while maintaining model efficiency?[Question End]
+
+[Question Start]In an NLP context, what are some potential advantages and disadvantages of fine-tuning a large pre-trained LLM on a specific task rather than starting with a model trained directly for the target task from scratch?[Question End]
+
+[Question Start]What is the low-rank assumption in LoRa (Low-Rank Adaptation of Large Language Models) and how does it help with fine-tuning these models?
+A) It assumes that only a few new parameters are needed to adapt the model, reducing the computational resources required during training.
+B: It assumes the update weight matrix contains just as much information as the original weights, requiring no reduction in dimensionality or computation.
+C: It assumes the update weight matrix is of higher rank than the original weights, actually increasing the complexity and parameters of the fine-tuned model. 
+D: It makes no assumptions about the weight matrices' ranks, making the approach computationally intensive like a full parameter update.[Question End]

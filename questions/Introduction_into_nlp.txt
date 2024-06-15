@@ -1,10 +1,32 @@
+[Question Start]What are the common challenges in NLP, and how do researchers attempt to overcome these issues?[Question End]
 
-    1. What is a chat bot and how does it integrate with various platforms like IRC, Discord, or social media? Provide an example of a general-purpose chatbot system.
-    A) Siri
-    B) Alexa
-    C) ChatGPT
-    D) A rule-based chatbot for customer support on a website
-    2. Which NLP tasks are commonly used in text generation, image generation from text (T2I), and question answering? List at least three tasks for each category.
-    3. Describe the differences between text classification and sentiment analysis. Provide an example of how each task can be applied to real-world scenarios.
-    4. Discuss the challenges in NLP, including ambiguities, computational resources, speech recognition, vectorization, typos, dataset sizes, languages, and explainability. Which challenge do you think is the most significant, and why?
-    5. What are some common application areas for NLP tasks such as text classification, sentiment analysis, machine translation, keyword extraction, text summarization, image generation from text (T2I), and question answering? Provide examples of how each task can be applied to real-world scenarios.
+[Question Start]Can you give some real-world examples of misapplications or unintended consequences of question-answering systems or chatbots in the wild, similar to the Air Canada incident? [Question End]
+
+[Question Start]How have neural network-based approaches revolutionized NLP tasks such as text generation and machine translation in recent years?[Question End]
+
+[Question Start]Based on the lecture content about NLP and its many applications, which of the following is NOT mentioned as a primary task of the field?
+
+A) Text classification for spam filtering
+B) Generating coherent text based on a given context
+C) Turning sound into written text (Speech-to-text)
+D) The automatic creation of visual art from textual prompts
+(Note: While modern AI can generate impressive images, the idea that it could yet accurately translate text to visual content is overstated and remains in the realm of science fiction for now.)[Question End]
+
+[Question Start]Given the following code snippet from StopWordKeywordExtractor class:
+
+```python
+class StopWordKeywordExtractor:
+    # ...
+    def is_proper_word(self, token:str) -> bool:
+        ''' 
+        Checks if the word is a proper word by our definition 
+        Arguments: 
+            token     -- The token as a string 
+        Return: 
+            is_proper -- True / False
+        '''
+        match = re.search(r'\b(\w{2,})\b', token)
+        return match and token == match[0]
+```
+
+Question: What is the purpose of the regular expression `r'\b(\w{2,})\b'` in the is_proper_word function?[Question End]

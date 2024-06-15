@@ -1,24 +1,21 @@
-----------------------------------------------------------------------------------
+[Question Start]What is the purpose of normalizing term frequencies in the TF-IDF method?[Question End]
 
-    1. Given the following corpus, calculate the term frequency (tf) and document frequency (df) for the word "animal". Then calculate the inverse document frequency (idf), and finally the TF-IDF score for this word in this corpus.
-        a) What is the difference between Term Frequency (TF) and Inverse Document Frequency (IDF)?
-        b) tf(animal) = ..., df(animal) = ..., idf(animal) = ..., TF-IDF(animal) = ...
+[Question Start]In the given example, what are the calculated TF-IDF values for "a" and "linux", respectively? [Question End]
 
-    2. Consider the given corpus and assuming we want to find documents that contain the word "command" but not the word "linux". Which terms would you add or remove from the idf calculation in order to get a good representation of such documents?
-        a) How many documents contain the word "command"?
-        b) Calculate the TF-IDF score for the term "command" in this corpus.
+[Question Start]Why would a term with an inverse document frequency of 0 not be useful for distinguishing between documents in this context?[Question End]
 
-    3. Suppose you have a new document that contains the sentence "My cat is not playful". Based on the given information, calculate the TF and IDF values for each term in this document, as well as its TF-IDF score.
-         a) Calculate the TF-IDF score for the word "cat" in this document.
-         b) Which terms in this document have a positive TF-IDF score?
-         c) Assume we want to find documents similar to this one, which terms would you include in your query?
+[Question Start]What is the effect of a high term frequency and low document frequency on a word's TF-IDF value in a text corpus?
+A) The value will be low, as high tf and low df could indicate the word is common within a single document but not very important across the entire corpus.
+B) The value will be moderate, as the high tf somewhat offsets the low df.
+C) The value will be high, as a high tf and a low df may suggest the word is particularly significant to one specific document in the corpus.
+D) It's impossible to say without more information on the inverse document frequency values.[Question End]
 
-    4. Explain the difference between using raw term frequency (TF) and TF-IDF for text classification tasks. Provide an example of when each method might be preferred.
-        a) Given a corpus containing news articles about various topics, how could you use TF-IDF to extract features from this data for text classification?
-        b) Which method would be more suitable for identifying the main topic of a document: raw term frequency or TF-IDF?
-         c) Provide an example of a real-world scenario where each method might be preferred.
+[Question Start]Based on the given excerpt, a potential question could be: 
 
-    5. Consider a large corpus of research papers in computer science, and suppose you want to find documents related to "deep learning" but not those that include the term "recurrent neural networks". Which terms would you add or remove from the idf calculation in order to get a good representation of such documents?
-        a) Calculate the TF-IDF score for the term "deep learning" in this corpus.
-        b) How many documents contain both the terms "deep learning" and "recurrent neural networks"?
-        c) Which terms should be included in the idf calculation to get good results for finding documents related to "deep learning" but not those containing "recurrent neural networks"?
+In the 'TfIdfModel' class, what is the purpose of the 'df_vector' and how is it computed from the 'term_doc_matrix'? 
+Code snippet for reference:
+```python
+df_vector = np.zeros(len(self.index))
+# Fill the matrix and compute the tfidf matrix
+raise NotImplementedError()
+```[Question End]

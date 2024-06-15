@@ -1,7 +1,13 @@
------------------------------------------------------------------------------
+[Question Start]How does the parallelogram method work in solving analogies, and why is it not effective for all types of analogical relations?[Question End]
 
-1) What does the term "vector semantics" refer to in Natural Language Processing (NLP)?
-2) Explain how cosine similarity is used as a metric for comparing word vectors.
-3) Why do word embeddings, like static and dynamic embeddings, reflect cultural biases? Provide two examples.
-4) Given the sentence "Paris : France :: Tokyo : x", what value of x would make this analogy true according to the parallelogram method?
-5) Which of the following words is likely to have a higher dot product with the word "information" based on the given data: "cherry" or "digital"? Explain your reasoning.
+[Question Start]What role can historical diachronic embeddings play as a tool to study semantic shifts and cultural biases over time? Can you provide an example from your text above? [Question End]
+
+[Question Start]How are gender and ethnic bias quantified in word embeddings, and what was the trend observed by Garg et al for competence adjectives during 1960-1990?[Question End]
+
+[Question Start]What analogy-solving method is related to the parallelogram model of analogical reasoning and was shown by Mikolov et al. (2013b) to be viable with word2vec embeddings? 
+A) Vector addition only in a single dimension 
+B) Vector subtraction only in a single dimension 
+C) Parallelogram method
+D) The cosine between the vectors of the two pairs is maximized for the second pair relative to the first.[Question End]
+
+[Question Start]Based on the given code snippet and content, a good question could be: How does the function `bagOfWords` create document embeddings, and how do these differ from the input token-level embeddings in the dictionaries?[Question End]

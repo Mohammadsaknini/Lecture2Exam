@@ -1,35 +1,13 @@
+[Question Start]What is the intuition behind the smoothing techniques in statistical language modeling, and how do they help with the sparsity issue of n-gram models?[Question End]
 
-    1. In the context of statistical language models, what is the role of add-one estimation?
-A) It's a method for handling unknown words in text data.
-B) It's used to improve the performance of caching models.
-C) It's an algorithm for handling out-of-vocabulary words.
-D) It's a technique for predicting the likelihood of word sequences based on historical data.
-Answer: A
+[Question Start]How does the use of caching models impact speech recognition tasks as opposed to text-based applications? [Question End]
 
-    2. Which smoothing method is used primarily in text categorization tasks?
-A) Add-one smoothing
-B) Stupid backoff
-C) Extended Interpolated Kneser-Ney
-D) Simple interpolation
-Answer: A
+[Question Start]How can N-gram probabilities be combined through interpolation, and why might simple linear interpolation not always provide the best results in practice?[Question End]
 
-    3. In statistical language models, what is the difference between closed and open vocabulary tasks?
-A) Closed vocabulary tasks involve handling known words only, while open vocabulary tasks allow for unknown or out-of-vocabulary words.
-B) Open vocabulary tasks involve handling only known words, while closed vocabulary tasks allow for both known and unknown words.
-C) Open vocabulary tasks require more computational power to handle large datasets, while closed vocabulary tasks are more efficient.
-D) Closed vocabulary tasks involve storing all possible n-grams in memory, while open vocabulary tasks rely on approximate language models.
-Answer: A
+[Question Start]What is the primary purpose of smoothing techniques in statistical language models? 
+A) To improve the probability assigned to unseen n-grams during evaluation on test sets
+B) To reduce the complexity of the model for more efficient processing
+C) To increase the likelihood that all words are part of the model's vocabulary
+D) To specifically weight more recently used words as more likely to appear next in a text[IDE][Question End]
 
-    4. Why is it important to use discriminative models in NLP?
-A) Discriminative models are used to improve the performance of caching models by selecting weights that fit the training data.
-B) Discriminative models help in handling unknown words or out-of-vocabulary words more effectively.
-C) Discriminative models aim to choose n-gram weights based on their ability to improve a specific task, rather than fitting the training set.
-D) Discriminative models are used primarily for text categorization tasks and perform poorly in speech recognition.
-Answer: C
-
-    5. Which smoothing method is best suited for very large N-grams like those found in web data?
-A) Add-one smoothing
-B) Extended Interpolated Kneser-Ney
-C) Stupid backoff
-D) Simple interpolation
-Answer: C (Stupid backoff)
+[Question Start]Question:In the lecture content, a bigram model is built for text from the movie *Spider-Man Homecoming*. The `bigram_probability` method in the BigramModel class calculates the probability of one word given another. Can you explain, step-by-step, how the probabilities are calculated and what data structures are used to enable quick access to these probabilities?[Question End]

@@ -1,6 +1,14 @@
+[Question Start]What is the role of self-attention in the Transformer Encoder, and how does it enable the model to understand context within a sequence of tokens? [Question End]
 
-1. In the context of NLP, what is the purpose of positional encoding? Provide an example using the given sentence "I like cake."
-2. Explain how self-attention mechanisms are used in transformer encoders to understand context and relationships within input sequences.
-3. What role does the Transformer Encoder play in understanding the meaning and context of text data? Provide an example of its application in a real-world NLP task.
-4. In the BERT model, which tasks are the model trained on during pre-training? Explain each task's significance in teaching the model about language context.
-5. Using the given figure "Fig. 17: BERT architecture (I)", describe how the masked sentence A and B pair is used for pre-training the BERT model to learn relationships between sentences.
+[Question Start]In BERT's masked language modeling task, what do we feed into the simple classifier for predicting the masked token, given that we have the final context embeddings from the encoder?[Question End]
+
+[Question Start]How are [SEP] and [CLS] tokens utilized in BERT to tackle the next sentence prediction task and how does this improve its understanding of the order of sentences? [Question End]
+
+[Question Start]What is the purpose of positional encoding in Transformer models, and why can't we simply use a flat word embedding for each token without any information about their positions within the sequence?[Question End]
+
+[Question Start]What is the main purpose of the self-attention mechanism in a Transformer Encoder?
+
+A) To generate individual token embeddings from positional information only
+B) To weigh the importance of different input tokens when generating output representations
+C) To learn a fixed, one-size-fits-all representation for all inputs
+D) To rearrange the order of the input sequence based on attention weights [IDE]B) To weigh the importance of different input tokens when generating output representations[Question End]

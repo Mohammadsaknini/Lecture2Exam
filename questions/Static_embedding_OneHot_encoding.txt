@@ -1,7 +1,14 @@
+[Question Start]What is the main purpose of converting words into vector representations in natural language processing, and why can't machine learning models work directly with text data? [Question End]
 
-1. What is the process called that converts words into vectors, which can be used in machine learning models?
-Answer: Word embedding
-2. In a one-hot encoding representation, how many dimensions does each word have if there are 10,000 unique words in the vocabulary?
-3. Describe the difference between a static word embedding and a dynamic word embedding. Provide an example of each.
-4. Given the sentence "The cat sat on the mat," what would be the one-hot encoded vectors for the words 'the', 'cat,' 'sat,' 'on,' 'the,' 'mat'?
-5. Explain how expert knowledge can influence the choice of dimensions when creating word embeddings. Provide an example of a domain where this might be particularly important and why.
+[Question Start]Why might one-hot encoding not always be an ideal representation for word embeddings, and what are some alternative methods to capture semantic meaning in vectors?[Question End]
+
+[Question Start]In the context of NLP, why is it important for a model to understand the similarity between words, and how does representing words as vectors help with this task?[Question End]
+
+[Question Start]What is the primary purpose of one-hot encoding in NLP?
+A) To reduce dimensionality of word embeddings
+B) To convert categorical data into a usable format for machine learning algorithms
+C) To quantify the semantic similarity between words in vector space
+D) To create a sparse representation of text documents for improved computational efficiency[Question End]
+
+[Question Start]**Question:**
+In the `TfIdfModel` class, the method `build_index` is implemented to create a dictionary that maps each word type in the documents to an index. The same functionality was already implemented in the `OneHotModel` class and can be reused there. Should you copy that implementation over or write your own? What are the trade-offs between these two decisions, considering the need for maintaining the code DRY while also avoiding unnecessary complexity due to shared code with a different model?[Question End]

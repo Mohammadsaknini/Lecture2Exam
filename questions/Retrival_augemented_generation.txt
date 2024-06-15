@@ -1,8 +1,13 @@
-------------------------------------------------------------------------------
-    1. In the context of NLP, what is a Retrieval Augmented Generator (RAG) and how does it help in document retrieval and generation?
-    (A) It's a neural network architecture that generates responses based on user queries.
-    (B) It's a technique for reducing the context size of prompts by using a selection of documents instead of all documents.
-    2. What is the role of vector search in NLP and how does it help retrieve semantically similar documents?
-3. Explain the concept behind the attention mechanism in transformer models and why it's important for handling long-range dependencies between words or tokens.
-4. Discuss some ideas for extending the context length in transformer models, such as state spaces instead of attention or hierarchical attention.
-5. What are some challenges in implementing a Retrieval Augmented Generator in a corporate environment and how can they be addressed? (Hint: Consider issues like data security and competing groups building the same thing.)
+[Question Start]What are the key differences between a retrieval-based approach and a keyword search in an NLP context, especially in relation to the RAG system? [Question End]
+
+[Question Start]How can multi-armed bandit theory be leveraged in hybrid document retrieval for a RAG system, given user feedback on relevancy of retrieved documents?[Question End]
+
+[Question Start]In a corporate environment, what are some potential challenges or special considerations when implementing an NLP RAG system and how might these require adaptations to the standard approach? [Question End]
+
+[Question Start]How can intermediate queries improve the effectiveness of the interaction between users, document retrieval, and LLMs in a RAG system?[Question End]
+
+[Question Start]What is the primary motivation behind using a Retrieval-Augmented Generator (RAG) in natural language processing, and what key components does it consist of?
+A) To reduce computation time and resources; vector search and document retrieval
+B) To increase context length and handle larger datasets; LLMs and multi-head attention
+C) To improve the understanding of visual content and tables in documents; computer vision models and table parsing algorithms
+D) To personalize text generation for different users; user modeling and reinforcement learning[Question End]

@@ -1,5 +1,13 @@
-1. What is the main difference between a transformer encoder and decoder?
-    2. In what ways can human feedback be used to improve language model performance?
-    3. How does the process of summarizing text using a reward model work?
-    4. What role do large language models play in NLP tasks such as sentiment analysis or question answering?
-    5. How many steps are there in the process of "learning to summarize from human feedback"? (A) Three, (B) Four, (C) Five.
+[Question Start]In the context of large language models, what is the purpose of fine-tuning with human feedback and how does it improve a model's performance?[Question End]
+
+[Question Start]What are the potential challenges associated with creating high-quality datasets for training transformer decoders, as depicted in the process by OpenAI in 2021?[Question End]
+
+[Question Start]How can multi-task learning be harnessed when training large language models to generate more coherent and human-like text?[Question End]
+
+[Question Start]What was the foundational paper in the field of transformers that sparked research into their applications within natural language processing?[Question End]
+
+[Question Start]Which of the following statements is true regarding the process discussed in "Learning to summarize from human feedback" by Stiennon et al (OpenAI), 2022?
+A) The researchers only used non-expert judges for evaluation.
+B) The summaries were not posted on a public platform for evaluation but assessed solely in-house.
+C) Both expert and non-expert judges evaluated the summaries, giving them rewards based on quality as perceived by their respective levels of expertise. 
+D) The model was only fine-tuned once after collecting the initial batch of human feedback.[Question End]

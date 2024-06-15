@@ -1,6 +1,14 @@
+[Question Start]What is the main difference between the traditional approach to word embeddings and the Negative Sampling Skip Gram Model in terms of computational time? [Question End]
 
-    1. How does the Word2Vec algorithm use negative sampling in its skip-gram model to improve performance?
-    2. Considering the given diagram, explain how the word "brown" would be represented as a vector using the Word2Vec algorithm's static embeddings.
-    3. In the context of NLP, what is the main goal of creating negative examples for training a Word2Vec model?
-    4. If you have a dataset with 10,000 unique words and want to generate negative samples for each positive example, approximately how many negative examples would be needed?
-    5. Given the following sentence: "The quick brown fox jumps over the lazy dog.", which two words are semantically similar according to Word2Vec's static embeddings based on their proximity in the vector space? (Multiple choice question: a) quick and brown; b) brown and lazy; c) fox and jumps)
+[Question Start]In the context of Word2Vec, why is it crucial for the model to incorporate negative examples along with positive examples during training?[Question End]
+
+[Question Start]How does the frequency-based negative sampling method help improve the Word2Vec model's understanding of word relationships and context within a text corpus?[Question End]
+
+[Question Start]Question: In the context of Word2Vec and negative sampling, what is one primary reason for creating synthetic negative examples during training?
+A) To outweigh the number of positive examples in a dataset
+B) To ensure that the model isn't "tricked" by only learning from positive examples 
+C) To make the most of sparse data where there are limited negative examples available
+D) To artificially boost the performance of the classifier on test data[IDE][Question End]
+
+[Question Start]### Question:
+In the given lecture content, there's a function called `bagOfWords` that is used to create document embeddings. It takes in a model and a document as input and returns the document embedding by summing up word vectors. Can you explain why taking the mean of the word vectors would not work here?[Question End]
