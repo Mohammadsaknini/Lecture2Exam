@@ -1,14 +1,26 @@
 import pickle
-from dataset import Lecture
-import regex as re
 from collections import defaultdict
-from openai import OpenAI
-import config
-import tqdm
 
+import regex as re
+import tqdm
+from openai import OpenAI
+
+import config
+from dataset import Lecture
 
 
 class LectureQuestions():
+    """
+    A container class to hold information about a lecture's questions.
+
+    Attributes:
+        topic (str): The name of the topic.
+        questions (list): A list of question text associated with this topic.
+        evaluations (list): A list of evaluations for each question. 
+        overall_evaluation (dict): An evaluation covering all questions in this topic.
+
+    """
+
     def __init__(self, 
                  topic: str, 
                  questions: list = [],
@@ -19,11 +31,27 @@ class LectureQuestions():
         self.topic: str = topic
         self.questions: list = questions
         self.evaluations: list = evaluations
-        self.overall_evaluation: list = overall_evaluation
+        self.overall_evaluation: dict = overall_evaluation
 
         
 
 class Evaluator:
+    """
+    A class to evaluate a dataset of lectures and questions.
+
+    Attributes:
+        lectures (dict): A dictionary where keys are integers representing lecture 
+            index, and values are Lecture instances.
+        questions (dict): A dictionary associating question information with lecture 
+            index as key.
+        client: An instance of OpenAI's chat model used for evaluations.
+        question_eval_prompt: A dictionary specifying the message template for 
+            evaluating individual questions.
+        overall_eval_prompt: A dictionary specifying the message template for 
+            evaluating all questions collectively.
+
+    """
+
     def __init__(self,
                  dataset_path: str,
                  questions_folder_path: str,
@@ -57,7 +85,19 @@ class Evaluator:
     def load_questions(self, 
                        questions_folder_path: str,
                        ) -> dict[int, LectureQuestions]:
-        
+        """
+            Loads questions associated with each lecture.
+
+            Args:
+                questions_folder_path (str): Path to folder containing question files 
+                    named after their topic.
+
+            Returns:
+                dict[int, LectureQuestions]: A dictionary mapping lecture index to a 
+                    LectureQuestions instance.
+                
+        """
+
         self.questions = defaultdict()
         
         for lecture_index in self.lectures:
@@ -81,6 +121,18 @@ class Evaluator:
     def is_question(self,
                     text: str,
                     ) -> list[str]:
+        """
+            Searches for questions in a given block of text using a configured regex
+            pattern.
+
+            Args:
+                text (str): The input text to search.
+
+            Returns:
+                list[str]: A list containing question texts found in the input.
+                
+        """
+
         regex = re.compile(config.QUESTION_PATTERN, re.DOTALL)
 
         matches = regex.findall(text.strip())
@@ -91,6 +143,18 @@ class Evaluator:
     def extract_tag_content(self,
                             text: str,
                             ) -> dict[str, str]:
+        """
+            Extracts content from tags within a string.
+
+            Args:
+                text (str): The input string containing tags to be extracted.
+
+            Returns:
+                dict[str, str]: A dictionary mapping tag names to their corresponding 
+                    contents.
+                
+        """
+
         # Define the regex pattern
         pattern = r'<(?P<tag>\w+)>(?P<content>.*?)</(?P=tag)>'
 
@@ -108,7 +172,16 @@ class Evaluator:
     
 
     def evaluate_lectures(self,
-                          ):
+                          ) -> None:
+        """
+            Evaluates questions associated with each lecture and gathers evaluations.
+
+            This method iterates through lectures, evaluates individual questions using 
+            the question_eval_prompt, and then evaluates all questions collectively for 
+            a given lecture using the overall_eval_prompt.
+                
+        """
+
         for lecture_index in tqdm.tqdm(self.questions):
             print(f"\nEvaluating lecture {lecture_index}")
             self.questions[lecture_index].evaluations = []
@@ -163,6 +236,22 @@ class Evaluator:
                             messages: list[dict],
                             required_length: int,
                             ) -> dict[str, str]:
+        """
+            Generates completion from the model based on a set of prompts. Retries for 
+            a configured number of times if the response does not meet the required 
+            length.
+
+            Args:
+                messages (list[dict]): A sequence of dictionaries that define the 
+                    conversation's context.
+                required_length (int): The expected length of the response dictionary.
+
+            Returns:
+                dict[str, str]: A dictionary with keys named after tags for each 
+                    question evaluation metric.
+                
+        """
+
         evaluation = dict()
         retries = 0
         while len(evaluation) != required_length and retries <= config.EVAL_RETRIES:
@@ -184,4 +273,13 @@ class Evaluator:
 
     def get_questions(self,
                      ) -> dict[int, LectureQuestions]:
+        """
+            Returns a dictionary of questions associated with each lecture.
+
+            Returns:
+                dict[int, LectureQuestions]: A mapping from lecture index to a 
+                    LectureQuestions instance.
+                
+        """
+        
         return self.questions
