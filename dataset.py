@@ -2,6 +2,7 @@ from transformers import AutoModel, AutoTokenizer
 from openai import OpenAI
 from PIL import Image
 from tqdm import tqdm
+from prompts import *
 from config import *
 import pymupdf
 import warnings
@@ -30,13 +31,6 @@ class Questions():
         return "\n\n".join([f"[Question Start]{q}[Question End]" for q in self.questions])
 
 
-
-
-
-
-
-
-
 class Lecture():
 
     def __init__(self, topic: str, content:str, num_slides: int, lecture_num: int, dependencies: list["Lecture"] = None) -> None:
@@ -57,7 +51,7 @@ class Dataset():
 
     def create_dataset(self):
         
-        for file in os.listdir("data"):
+        for file in os.listdir("data/lecutres"):
             metadata = file.split("-")
             lecture_num = int(metadata[0])
             topic = metadata[-1].split(".pdf")[0]
@@ -98,6 +92,12 @@ class Dataset():
 
             self.lectures[lecture_num] = lecture
 
+
+        with open("data/store/dataset.pkl", "wb") as f:
+            pickle.dump(self.lectures, f)
+
+        self.add_dependencies()
+
         return self.lectures
 
     def cleanup_text(self, text: str):
@@ -106,8 +106,10 @@ class Dataset():
         completion = client.chat.completions.create(
         model=MODEL,
         messages=[
-            {"role": "system", "content": """
-            You review are good at reviewing lecture slides and merging their content into a single long text wihout changing any of the information or wording"""},
+            {"role": "system", "content": """You review text related to a NLP lecture and clean it up for better readability.
+             You never change the meaning of the text, only the structure and style.
+             You never reword any technical terms or concepts. You only reformat the text to make it more readable.
+             Incase you encounter non sense letters you can remove it."""},
             {"role": "user", "content": f"Merge the following slides: {text}."}],
         temperature=0.2)
 
@@ -137,8 +139,14 @@ class Dataset():
 
         return f"[IDS] {res} [IDE]"
 
-    def add_dependencies(self):
-        lectures = pickle.load(open("dataset.pkl", "rb"))
+    def add_dependencies(self) -> dict[int, Lecture]:
+        """
+        Add dependencies to the lectures based on the excersises in the assignments folder
+
+        Returns:
+            dict[int, Lecture]: The lectures with dependencies added
+        """
+        lectures = pickle.load(open("data/store/dataset.pkl", "rb"))
         dependencies = {
             "1_BytePairEncoding.py": [1], # excersise 1 depends on lecture 1
             "2_N-Grams.ip.py": [2], # excersise 2 depends on lecture 2
@@ -166,18 +174,101 @@ class Dataset():
                 else:
                     lectures[i].dependencies.append(assignment)
 
-        with open("dataset.pkl", "wb") as f:
+        with open("data/store/dataset.pkl", "wb") as f:
             pickle.dump(lectures, f)
+
+        return lectures
+
+class QuestionsGenerator():
+
+    def __init__(self, base_url=None, api_key=None, model=None):
+        """
+        Args:
+            base_url (str): The base url for the openai api
+            api_key (str): The api key for the openai api
+            model (str): The model to use for generating questions
+        """
+        if base_url is None:
+            base_url = BASE_URL
+        if api_key is None:
+            api_key = API_KEY
+        if model is None:
+            model = MODEL
+        self.client = OpenAI(base_url=base_url, api_key=api_key)
+        self.model = model
+    
+    def generate(self, prompt):
+        return self.client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant that writes exam questions for a NLP course. You are given lecture slides and asked to generate questions based on the content."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.7,
+        )
+    
+
+
+
+    def generate_questions(self, num_questions=5, mc_questions=1, code_questions=1, verbose=False) -> list[Questions]:
+        """
+        Generate questions for each lecture in the dataset
+
+        Args:
+            num_questions (int): Total number of questions to generate for each lecture
+            mc_questions (int): Number of multiple choice questions to generate
+            code_questions (int): Number of coding questions to generate
+            verbose (bool): Print questions to console
+        """
+        lectures = pickle.load(open("data/store/dataset.pkl", "rb")) #type: list[Lecture]
+        lectures = list(lectures.values())
+        module_questions = []  #type: list[Questions]
+
+        for i, lecture in enumerate(lectures):
+            lecture_questions = Questions(lecture)
+            if lecture.dependencies is not None:
+                if len(lecture.dependencies) == 0 and code_questions > 1:
+                    print(f"No coding question for lecture {i+1} - {lecture.topic}")
+
+
+            ft_questions = num_questions - mc_questions - code_questions
+            if lecture.dependencies is None:
+                ft_questions += code_questions
+
+            # ft questions
+            questions = self.generate(FREE_TEXT_QUETIONS.format(topic=lecture.topic, content=lecture.content, num_questions=ft_questions))        
+            lecture_questions.add_free_text(questions.choices[0].message.content)
+
+            # mc questions
+            for _ in range(mc_questions):
+                questions = self.generate(MC_QUESTION.format(topic=lecture.topic, content=lecture.content))
+                lecture_questions.add_question(questions.choices[0].message.content)
+
+            # code questions
+            if lecture.dependencies is not None:
+                for _ in range(code_questions):
+                    code_content = [i for i in lecture.dependencies]
+                    questions = self.generate(CODE_QUESTION.format(topic=lecture.topic, content=code_content))
+                    lecture_questions.add_question(questions.choices[0].message.content)
+
+            module_questions.append(lecture_questions)
+
+            with open(f"questions/{lecture.topic}.txt", "w", encoding="utf-8") as f:
+                f.write(str(lecture_questions))
+
+            if verbose:
+                print(f"Questions for lecture {i+1} - {lecture.topic}")
+                print(lecture_questions)
+                print("\n\n")
+
+        pickle.dump(module_questions, open("data/store/questions.pkl", "wb"))
+        return module_questions
+
 
 
 if __name__ == "__main__":
-    # dataset = Dataset()
-    # dataset.create_dataset()
-    # with open("dataset.pkl", "wb") as f:
-    #     pickle.dump(dataset.lectures, f)
-    # dataset.add_dependencies()
-    lectures = pickle.load(open("dataset.pkl", "rb"))
-    with open("data.txt", "w", encoding="utf-8") as f:
+    lectures = pickle.load(open("data/store/dataset.pkl", "rb"))
+    with open("data/store/data.txt", "w", encoding="utf-8") as f:
         for lecture in lectures.values():
             f.write("[Lecture Start]\n\n")
             f.write(f"------------{lecture.topic}------------\n")
@@ -187,5 +278,3 @@ if __name__ == "__main__":
                     f.write("\n\n")
                     f.write(f"{dep}")
             f.write("[Lecture End]\n\n")
-
-
