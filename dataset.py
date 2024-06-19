@@ -54,14 +54,20 @@ class Dataset():
         self.lectures = {}  # type: dict[int, Lecture]
 
     def create_dataset(self):
-
-        for file in os.listdir("data/lectures"):
+        print("Loading files in data/lectures...")
+        dir = os.listdir("data/lectures")
+        page_counter = 0
+        for file in dir:
+            if (file[0].isdigit() is False) or ("-" not in file):
+                raise ValueError("Error: expected file name to be: number-topic")
             metadata = file.split("-")
             lecture_num = int(metadata[0])
             topic = metadata[-1].split(".pdf")[0]
 
             pdf = pymupdf.open("data/" + file)
             page: pymupdf.Page = None  # for type hinting
+            page_counter += pdf.page_count
+
             slides = []
             for page in tqdm(pdf.pages(start=1, stop=pdf.page_count - 1), desc=f"Processing {file}",
                              total=pdf.page_count, unit="slides"):
@@ -100,7 +106,7 @@ class Dataset():
             pickle.dump(self.lectures, f)
 
         self.add_dependencies()
-
+        print("Successfully loaded {} pdfs with a total of {} pages".format(len(dir), page_counter))
         return self.lectures
 
     def cleanup_text(self, text: str):
