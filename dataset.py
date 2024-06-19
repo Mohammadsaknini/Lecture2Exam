@@ -115,10 +115,10 @@ class Dataset():
         completion = client.chat.completions.create(
             model=MODEL,
             messages=[
-                {"role": "system", "content": """You review text related to a NLP lecture and clean it up for better readability.
-             You never change the meaning of the text, only the structure and style.
-             You never reword any technical terms or concepts. You only reformat the text to make it more readable.
-             Incase you encounter non sense letters you can remove it."""},
+                {"role": "system", "content": """You review text related to a NLP lecture and clean it up for better 
+                readability. You never change the meaning of the text, only the structure and style. You never reword 
+                any technical terms or concepts. You only reformat the text to make it more readable. Incase you 
+                encounter non sense letters you can remove it."""},
                 {"role": "user", "content": f"Merge the following slides: {text}."}],
             temperature=0.2)
 
@@ -220,29 +220,44 @@ class QuestionsGenerator():
             temperature=0.7,
         )
 
-    def generate_questions(self, num_questions=5, mc_questions=1, code_questions=1, verbose=False) -> list[Questions]:
+    def generate_questions(self, num_questions=[5], mc_questions=[1], code_questions=[1], verbose=False) \
+            -> list[Questions]:
         """
         Generate questions for each lecture in the dataset
 
         Args:
-            num_questions (int): Total number of questions to generate for each lecture
-            mc_questions (int): Number of multiple choice questions to generate
-            code_questions (int): Number of coding questions to generate
+            num_questions ([int]): Total number of questions to generate for each lecture
+            mc_questions ([int]): Numbers of multiple choice questions to generate for each lecture
+            code_questions ([int]): Numbers of coding questions to generate for each lecture
             verbose (bool): Print questions to console
         """
         lectures = pickle.load(open("data/store/dataset.pkl", "rb"))  # type: list[Lecture]
         lectures = list(lectures.values())
-        module_questions = []  # type: list[Questions]
 
+        if len(num_questions) == 1:  # uniform distribution
+            num_questions = num_questions * len(lectures)
+            mc_questions = mc_questions * len(lectures)
+            code_questions = code_questions * len(lectures)
+        else:
+            assert len(num_questions) == len(lectures), ("Number of questions must equal the number of lectures for "
+                                                         "custom distribution")
+            assert len(mc_questions) == len(lectures), ("Number of questions must equal the number of lectures for "
+                                                        "custom distribution")
+            assert len(code_questions) == len(lectures), ("Number of questions must equal the number of lectures for "
+                                                          "custom distribution")
+
+        module_questions = []  # type: list[Questions]
         for i, lecture in enumerate(lectures):
             lecture_questions = Questions(lecture)
             if lecture.dependencies is not None:
-                if len(lecture.dependencies) == 0 and code_questions > 1:
+                if len(lecture.dependencies) == 0 and code_questions[i] > 1:
                     print(f"No coding question for lecture {i + 1} - {lecture.topic}")
 
-            ft_questions = num_questions - mc_questions - code_questions
+            ft_questions = num_questions[i] - mc_questions[i] - code_questions[i]
             if lecture.dependencies is None:
-                ft_questions += code_questions
+                ft_questions += code_questions[i]
+            if ft_questions < 1:
+                raise ValueError("Number of Questions can not be {}".format(ft_questions))
 
             # ft questions
             questions = self.generate(
@@ -250,13 +265,13 @@ class QuestionsGenerator():
             lecture_questions.add_free_text(questions.choices[0].message.content)
 
             # mc questions
-            for _ in range(mc_questions):
+            for _ in range(mc_questions[i]):
                 questions = self.generate(MC_QUESTIONS.format(topic=lecture.topic, content=lecture.content))
                 lecture_questions.add_question(questions.choices[0].message.content)
 
             # code questions
             if lecture.dependencies is not None:
-                for _ in range(code_questions):
+                for _ in range(code_questions[i]):
                     code_content = [i for i in lecture.dependencies]
                     questions = self.generate(CODE_QUESTIONS.format(topic=lecture.topic, content=code_content))
                     lecture_questions.add_question(questions.choices[0].message.content)
