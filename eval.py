@@ -55,6 +55,9 @@ class Evaluator:
                  questions_folder_path: str,
                  question_eval_prompt: dict[str, str] = None,
                  overall_eval_prompt: dict[str, str] = None,
+                 base_url=None,
+                 api_key=None,
+                 model=None,
                  ) -> None:
 
         self.lectures: dict[int, Lecture] = pickle.load(
@@ -66,10 +69,11 @@ class Evaluator:
         )
 
         self.client = OpenAI(
-            base_url=config.EVAL_BASE_URL,
-            api_key=config.EVAL_API_KEY,
+            base_url=config.EVAL_BASE_URL if base_url is None else base_url,
+            api_key=config.EVAL_API_KEY if api_key is None else api_key,
         )
-
+        self.model = model
+        self.total_tokens = 0
         self.question_eval_prompt: dict[str, str] = {
             'system': 'You are given the task of evaluating an examination question given the lecture content within '
                       '<lecture> </lecture> and question within <question> </question> tags.  Always provide a '
@@ -124,13 +128,16 @@ class Evaluator:
             lecture_questions = LectureQuestions(
                 self.lectures[lecture_index].topic,
             )
+            try:
+                with open(f"{questions_folder_path}/" \
+                        + f"{self.lectures[lecture_index].topic}.txt", "r") \
+                        as question_file:
+                    question_text = self.is_question(
+                        "\n".join(question_file.readlines()),
+                    )
+            except FileNotFoundError:
+                continue # handle skipped lecture due to long context using gpts
 
-            with open(f"{questions_folder_path}/" \
-                      + f"{self.lectures[lecture_index].topic}.txt", "r") \
-                    as question_file:
-                question_text = self.is_question(
-                    "\n".join(question_file.readlines()),
-                )
 
             lecture_questions.questions = question_text
             self.questions[lecture_index] = lecture_questions
@@ -247,6 +254,7 @@ class Evaluator:
             )
 
             self.questions[lecture_index].overall_evaluation = evaluation
+            print(self.total_tokens)
 
     def get_eval_completion(self,
                             messages: list[dict],
@@ -273,12 +281,16 @@ class Evaluator:
         while len(evaluation) != required_length and retries <= config.EVAL_RETRIES:
             retries += 1
             print(f"Prompting eval model | retries: {retries - 1}")
-            completion = self.client.chat.completions.create(
-                model=config.EVAL_MODEL,
-                messages=messages,
-                temperature=config.EVAL_TEMPERATURE,
-            )
-
+            try:
+                completion = self.client.chat.completions.create(
+                    model=config.EVAL_MODEL if self.model is None else self.model,
+                    messages=messages,
+                    temperature=config.EVAL_TEMPERATURE,
+                )
+            except Exception as e:
+                print(e)
+                break
+            self.total_tokens += completion.usage.total_tokens
             evaluation = self.extract_tag_content(
                 completion.choices[0].message.content
             )
