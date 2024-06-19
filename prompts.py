@@ -1,5 +1,5 @@
 
-FREE_TEXT_QUETIONS = """
+FREE_TEXT_QUESTIONS = """
 Create exam questions based for the topic : {topic}
 
 Lecture content:
@@ -13,7 +13,7 @@ NEVER PROVIDE AN ANSWER
 """
 
 
-CODE_QUESTION = """
+CODE_QUESTIONS = """
 Create exam questions based for the topic : {topic}
 
 Lecture content:
@@ -24,7 +24,7 @@ THE QUESTIONS SHOULD NOT REQUIERE ANY ACTUAL CODING, JUST UNDERSTANDING OF THE C
 NEVER PROVIDE AN ANSWER
 """
 
-MC_QUESTION = """
+MC_QUESTIONS = """
 Create exam questions based for the topic : {topic}
 
 Lecture content:

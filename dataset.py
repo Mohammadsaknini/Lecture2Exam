@@ -212,7 +212,8 @@ class QuestionsGenerator():
             model=self.model,
             messages=[
                 {"role": "system",
-                 "content": "You are a helpful assistant that writes exam questions for a NLP course. You are given lecture slides and asked to generate questions based on the content."},
+                 "content": "You are a helpful assistant that writes exam questions for a NLP course. You are given "
+                            "lecture slides and asked to generate questions based on the content."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
@@ -244,19 +245,19 @@ class QuestionsGenerator():
 
             # ft questions
             questions = self.generate(
-                FREE_TEXT_QUETIONS.format(topic=lecture.topic, content=lecture.content, num_questions=ft_questions))
+                FREE_TEXT_QUESTIONS.format(topic=lecture.topic, content=lecture.content, num_questions=ft_questions))
             lecture_questions.add_free_text(questions.choices[0].message.content)
 
             # mc questions
             for _ in range(mc_questions):
-                questions = self.generate(MC_QUESTION.format(topic=lecture.topic, content=lecture.content))
+                questions = self.generate(MC_QUESTIONS.format(topic=lecture.topic, content=lecture.content))
                 lecture_questions.add_question(questions.choices[0].message.content)
 
             # code questions
             if lecture.dependencies is not None:
                 for _ in range(code_questions):
                     code_content = [i for i in lecture.dependencies]
-                    questions = self.generate(CODE_QUESTION.format(topic=lecture.topic, content=code_content))
+                    questions = self.generate(CODE_QUESTIONS.format(topic=lecture.topic, content=code_content))
                     lecture_questions.add_question(questions.choices[0].message.content)
 
             module_questions.append(lecture_questions)
