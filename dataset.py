@@ -15,6 +15,7 @@ import re
 warnings.filterwarnings("ignore")
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 
+
 class Questions():
     def __init__(self, lecture: str) -> None:
         self.questions = []
@@ -33,35 +34,39 @@ class Questions():
 
 class Lecture():
 
-    def __init__(self, topic: str, content:str, num_slides: int, lecture_num: int, dependencies: list["Lecture"] = None) -> None:
+    def __init__(self, topic: str, content: str, num_slides: int, lecture_num: int,
+                 dependencies: list["Lecture"] = None) -> None:
         self.content = content
         self.topic = topic
         self.dependencies = dependencies
         self.num_slides = num_slides
         self.lecture_num = lecture_num
-    
+
+
 class Dataset():
 
     def __init__(self):
-        self._img_model = AutoModel.from_pretrained('openbmb/MiniCPM-Llama3-V-2_5', trust_remote_code=True, torch_dtype=torch.float16)
+        self._img_model = AutoModel.from_pretrained('openbmb/MiniCPM-Llama3-V-2_5', trust_remote_code=True,
+                                                    torch_dtype=torch.float16)
         self._tokenizer = AutoTokenizer.from_pretrained('openbmb/MiniCPM-Llama3-V-2_5', trust_remote_code=True)
         self._img_model = self._img_model.to("cuda")
         self._img_model.eval()
-        self.lectures = {} #type: dict[int, Lecture]
+        self.lectures = {}  # type: dict[int, Lecture]
 
     def create_dataset(self):
-        
-        for file in os.listdir("data/lecutres"):
+
+        for file in os.listdir("data/lectures"):
             metadata = file.split("-")
             lecture_num = int(metadata[0])
             topic = metadata[-1].split(".pdf")[0]
-            
+
             pdf = pymupdf.open("data/" + file)
             page: pymupdf.Page = None  # for type hinting
             slides = []
-            for page in tqdm(pdf.pages(start=1, stop=pdf.page_count-1), desc=f"Processing {file}", total=pdf.page_count, unit="slides"):
-                clip = page.rect 
-                clip.y1 = 505 # remove footer
+            for page in tqdm(pdf.pages(start=1, stop=pdf.page_count - 1), desc=f"Processing {file}",
+                             total=pdf.page_count, unit="slides"):
+                clip = page.rect
+                clip.y1 = 505  # remove footer
                 text = page.get_textpage(clip=clip).extractText()
                 table: pymupdf.table.Table = None
 
@@ -82,16 +87,14 @@ class Dataset():
                     slides.append(text)
                 else:
                     slides.append(text)
-                
 
             text = "\n\n".join(slides)
             # text = self.cleanup_text(text)
 
             lecture = Lecture(topic=topic, content=text,
-                            lecture_num=lecture_num, num_slides=len(slides))
+                              lecture_num=lecture_num, num_slides=len(slides))
 
             self.lectures[lecture_num] = lecture
-
 
         with open("data/store/dataset.pkl", "wb") as f:
             pickle.dump(self.lectures, f)
@@ -104,14 +107,14 @@ class Dataset():
         client = OpenAI(base_url=BASE_URL, api_key=API_KEY)
 
         completion = client.chat.completions.create(
-        model=MODEL,
-        messages=[
-            {"role": "system", "content": """You review text related to a NLP lecture and clean it up for better readability.
+            model=MODEL,
+            messages=[
+                {"role": "system", "content": """You review text related to a NLP lecture and clean it up for better readability.
              You never change the meaning of the text, only the structure and style.
              You never reword any technical terms or concepts. You only reformat the text to make it more readable.
              Incase you encounter non sense letters you can remove it."""},
-            {"role": "user", "content": f"Merge the following slides: {text}."}],
-        temperature=0.2)
+                {"role": "user", "content": f"Merge the following slides: {text}."}],
+            temperature=0.2)
 
         return completion.choices[0].message.content
 
@@ -125,8 +128,8 @@ class Dataset():
         """
         prompt = "describe what you see knowing we are in a NLP lecture"
         messages = [
-            {"role":"user","content":f"The lecture is about the topic: {topic}"},
-            {"role":"user","content":prompt}
+            {"role": "user", "content": f"The lecture is about the topic: {topic}"},
+            {"role": "user", "content": prompt}
         ]
         res = self._img_model.chat(
             image=img,
@@ -148,17 +151,17 @@ class Dataset():
         """
         lectures = pickle.load(open("data/store/dataset.pkl", "rb"))
         dependencies = {
-            "1_BytePairEncoding.py": [1], # excersise 1 depends on lecture 1
-            "2_N-Grams.ip.py": [2], # excersise 2 depends on lecture 2
-            "3_SimpleEmbeddings.py": [3,4], # excersise 3 depends on lecture 3 and 4
-            "4_VectorSimilarity.py": [5,6], # excersise 4 depends on lecture 5 and 6
-            "5_Neural_Language_Model.py": [7], # excersise 5 depends on lecture 7
-            "6_Keywords.py":[]# 6 is a standalone excersise
+            "1_BytePairEncoding.py": [1],  # excersise 1 depends on lecture 1
+            "2_N-Grams.ip.py": [2],  # excersise 2 depends on lecture 2
+            "3_SimpleEmbeddings.py": [3, 4],  # excersise 3 depends on lecture 3 and 4
+            "4_VectorSimilarity.py": [5, 6],  # excersise 4 depends on lecture 5 and 6
+            "5_Neural_Language_Model.py": [7],  # excersise 5 depends on lecture 7
+            "6_Keywords.py": []  # 6 is a standalone excersise
         }
         for lecture in lectures.values():
             lecture.dependencies = None
 
-        for k,v in dependencies.items():
+        for k, v in dependencies.items():
             # add standalone excersises to the first lecture
             assignment = open(f"data/assignments/{k}", "r").read()
             assignment = "[Code Start]\n\n" + assignment + "\n\n[Code End]"
@@ -179,6 +182,7 @@ class Dataset():
 
         return lectures
 
+
 class QuestionsGenerator():
 
     def __init__(self, base_url=None, api_key=None, model=None):
@@ -196,19 +200,17 @@ class QuestionsGenerator():
             model = MODEL
         self.client = OpenAI(base_url=base_url, api_key=api_key)
         self.model = model
-    
+
     def generate(self, prompt):
         return self.client.chat.completions.create(
             model=self.model,
             messages=[
-                {"role": "system", "content": "You are a helpful assistant that writes exam questions for a NLP course. You are given lecture slides and asked to generate questions based on the content."},
+                {"role": "system",
+                 "content": "You are a helpful assistant that writes exam questions for a NLP course. You are given lecture slides and asked to generate questions based on the content."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
         )
-    
-
-
 
     def generate_questions(self, num_questions=5, mc_questions=1, code_questions=1, verbose=False) -> list[Questions]:
         """
@@ -220,23 +222,23 @@ class QuestionsGenerator():
             code_questions (int): Number of coding questions to generate
             verbose (bool): Print questions to console
         """
-        lectures = pickle.load(open("data/store/dataset.pkl", "rb")) #type: list[Lecture]
+        lectures = pickle.load(open("data/store/dataset.pkl", "rb"))  # type: list[Lecture]
         lectures = list(lectures.values())
-        module_questions = []  #type: list[Questions]
+        module_questions = []  # type: list[Questions]
 
         for i, lecture in enumerate(lectures):
             lecture_questions = Questions(lecture)
             if lecture.dependencies is not None:
                 if len(lecture.dependencies) == 0 and code_questions > 1:
-                    print(f"No coding question for lecture {i+1} - {lecture.topic}")
-
+                    print(f"No coding question for lecture {i + 1} - {lecture.topic}")
 
             ft_questions = num_questions - mc_questions - code_questions
             if lecture.dependencies is None:
                 ft_questions += code_questions
 
             # ft questions
-            questions = self.generate(FREE_TEXT_QUETIONS.format(topic=lecture.topic, content=lecture.content, num_questions=ft_questions))        
+            questions = self.generate(
+                FREE_TEXT_QUETIONS.format(topic=lecture.topic, content=lecture.content, num_questions=ft_questions))
             lecture_questions.add_free_text(questions.choices[0].message.content)
 
             # mc questions
@@ -257,13 +259,12 @@ class QuestionsGenerator():
                 f.write(str(lecture_questions))
 
             if verbose:
-                print(f"Questions for lecture {i+1} - {lecture.topic}")
+                print(f"Questions for lecture {i + 1} - {lecture.topic}")
                 print(lecture_questions)
                 print("\n\n")
 
         pickle.dump(module_questions, open("data/store/questions.pkl", "wb"))
         return module_questions
-
 
 
 if __name__ == "__main__":
