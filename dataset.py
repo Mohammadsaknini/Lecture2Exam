@@ -212,8 +212,9 @@ class QuestionsGenerator():
             model=self.model,
             messages=[
                 {"role": "system",
-                 "content": "You are a helpful assistant that writes exam questions for a NLP course. You are given "
-                            "lecture slides and asked to generate questions based on the content."},
+                 "content": "You are a Professor. Your task is to setup questions for an upcoming NLP quiz/examination."
+                            "The questions should be diverse in nature across the slides. Restrict the questions to "
+                            "the context information provided."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
