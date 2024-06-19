@@ -251,6 +251,9 @@ class QuestionsGenerator():
 
         module_questions = []  # type: list[Questions]
         for i, lecture in enumerate(lectures):
+            if lecture.topic not in ['Statistical_language_models','Transformer_decoder_and_Large_Langauge_Models']:
+                continue
+            print(lecture.topic)
             lecture_questions = Questions(lecture)
             if lecture.dependencies is not None:
                 if len(lecture.dependencies) == 0 and code_questions[i] > 1:

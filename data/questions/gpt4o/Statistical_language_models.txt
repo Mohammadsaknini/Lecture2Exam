@@ -1,0 +1,138 @@
+[Question Start]Explain the concept of linear interpolation in the context of statistical language models. How does linear interpolation combine different N-gram models, and how are the lambda values determined for this process?[Question End]
+
+[Question Start]Discuss the techniques used for handling unknown words in statistical language models. Differentiate between open and closed vocabulary tasks and explain the significance of creating an unknown word token <UNK> in language modeling.[Question End]
+
+[Question Start]Elaborate on the concept of smoothing for web-scale N-grams in statistical language models. Describe the "Stupid backoff" technique introduced by Brants et al. in 2007 and how it addresses the issue of relative frequencies in large N-gram datasets.[Question End]
+
+[Question Start]### QUESTION
+
+What is the primary purpose of linear interpolation in language modeling?
+
+- To combine different order N-grams by linearly interpolating all the models
+- To remove singletons of higher-order n-grams for efficiency
+- To prune N-grams with count below a threshold
+- To store words as indexes for improved accuracy[Question End]
+
+[Question Start]```python
+import numpy as np
+from typing import List
+from collections import Counter
+from itertools import islice
+from nltk.corpus import gutenberg
+
+class BigramModel:
+    
+    def __init__(self, sentences: List[List[str]]):
+        '''
+        Takes in a list of sentences, where each sentence is a 
+        list of words.
+        
+        Arguments:
+            sentences -- List of lists of words (e.g. [['I', 'have', 'a', 'dog'],
+                                                      ['a', 'dog', 'I', 'have']])
+        '''
+        # YOUR CODE HERE
+        raise NotImplementedError()
+        
+    def window(self, seq, n=2):
+        '''
+        Returns a sliding window (of width n) over data from the iterable
+        
+        Arguments:
+            seq      -- the iterable (e.g. list, set, etc) to run the window over
+            n        -- the size of the window
+        Returns:
+            iterator -- an iterator over the sliding windows
+            
+        Usage:
+            my_list = [1, 2, 3, 4]
+            for slice in self.window(my_list):
+                print(slice)
+                
+            # Output: (1, 2)
+                      (2, 3)
+                      (3, 4)
+        '''
+        "Returns a sliding window (of width n) over data from the iterable"
+        "   s -> (s0,s1,...s[n-1]), (s1,s2,...,sn), ...                   "
+        it = iter(seq)
+        result = tuple(islice(it, n))
+        if len(result) == n:
+            yield result
+        for elem in it:
+            result = result[1:] + (elem,)
+            yield result
+            
+    def unigram_count(self, word: str) -> int:
+        '''
+        Returns the unigram count for the word.
+        If the word does not exist in our corpus, return 0.
+        
+        Arguments:
+            word  -- word we want to know the count of
+        Returns:
+            count -- how often the word appears in the corpus
+        '''
+        # YOUR CODE HERE
+        raise NotImplementedError()
+        
+    def unigram_probability(self, word:str) -> float:
+        '''
+        Returns the unigram probability for the word.
+        If the word does not exist in our corpus, return 0.
+        
+        Arguments:
+            word        -- word we want to know the probability of
+        Returns:
+            probability -- how likely it is to choose the word at random
+        '''
+        # YOUR CODE HERE
+        raise NotImplementedError()
+    
+    def bigram_count(self, word1:str, word2:str) -> int:
+        '''
+        Returns the bigram count for the word1 followed by word2.
+        If either of the words does not exist in our corpus, return 0.
+        
+        Arguments:
+            word1  -- first word of the bigram
+            word2  -- second word of the bigram
+        Returns:
+            count  -- how often the bigram appears in the corpus
+        '''
+        # YOUR CODE HERE
+        raise NotImplementedError()
+        
+    def bigram_probability(self, word1:str, word2:str) -> float:
+        '''
+        Returns the bigram probability for the word1 followed by word2.
+        This is the conditional probability P(word2 | word1).
+        If either of the words does not exist in our corpus, return 0.
+        
+        Arguments:
+            word1       -- first word of the bigram
+            word2       -- second word of the bigram
+        Returns:
+            probability -- how likely it is to choose the word at random
+        '''
+        # YOUR CODE HERE
+        raise NotImplementedError()
+    
+    def sentence_probability(self, sentence:List[str]) -> float:
+        '''
+        Return the probability for the given sentence based on our
+        bigram probabilities
+        
+        Arguments:
+            sentence    -- list of tokens from the sentence 
+                           (e.g. ['<s>', 'I', 'have', 'a', 'dog', '</s>'])
+        Returns:
+            probability -- probability of the sentence
+        '''
+        # YOUR CODE HERE
+        raise NotImplementedError()
+```
+
+**Question:** In the provided `BigramModel` class, what does the `window` method do and what is its purpose in the context of building a bigram language model? 
+
+**Note:** You are not required to provide the actual implementation of the method, just explain its functionality and significance based on the context provided in the lecture content.[Question End]
