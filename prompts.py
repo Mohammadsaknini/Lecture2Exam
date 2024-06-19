@@ -10,6 +10,14 @@ Generate {num_questions} questions based on the content above, make sure they ar
 DO NOT INTRODUCE ANY QUESTIONS THAT ARE NOT BASED ON THE CONTENT ABOVE
 THE GENERATED QUESTIONS SHOULD NOT ASK ABOUT RESEARCH PAPERS OR AUTHORS
 NEVER PROVIDE AN ANSWER
+
+The Output must be in the following format:
+
+1. Question 1
+2. Question 2
+3. Question 3
+...
+...
 """
 
 

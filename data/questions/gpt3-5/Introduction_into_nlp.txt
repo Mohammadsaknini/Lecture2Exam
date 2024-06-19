@@ -1,0 +1,60 @@
+[Question Start]Explain the concept of text classification and sentiment analysis in the context of Natural Language Processing (NLP), highlighting their importance and applications in understanding human language.[Question End]
+
+[Question Start]Discuss the challenges commonly faced in NLP tasks, including ambiguities, computation issues, dataset sizes, and biases. Provide examples or scenarios to illustrate these challenges in practical NLP applications.[Question End]
+
+[Question Start]Describe the process of keyword extraction in NLP and its significance in understanding natural language data. Explain how token classification is utilized in this context and provide examples of its applications in various fields.[Question End]
+
+[Question Start]### Question
+
+What is the primary goal of Natural Language Processing (NLP)?
+
+- A computer capable of "understanding" the contents of documents
+- Generating images from text descriptions
+- Analyzing visual content in images
+- Categorizing images into predefined categories[Question End]
+
+[Question Start]```python
+# %% [markdown]
+# ## SpaCy B) [5 points]
+# 
+# ### Cluster the text by POS tag
+# 
+# Next we want to cluster the text by the corresponding part-of-speech (POS) tags. 
+# 
+# The result should be a dictionary `pos_tags` where the keys are the POS tags and the values are lists of words with those POS tags. Make sure your words are converted to **strings**.
+# 
+# *Example:*
+# 
+# ```python
+# pos_tags['VERB'] # Output: ['said', 'means', 'study']
+# pos_tags['ADJ']  # Output: ['certain']
+# ...
+# ```
+
+# %%
+import spacy
+nlp = spacy.load('/srv/shares/NLP/spacy/en_core_web_sm')
+
+text = '''
+This is a sentence. Mr. A. said this was another! 
+But is this a sentence? The abbreviation Merch. means merchant(s).
+At certain Univ. in the U.S. and U.K. they study NLP.
+'''
+
+pos_tags = dict()
+
+# YOUR CODE HERE
+raise NotImplementedError()
+
+for key in pos_tags:
+    print('The words with the POS tag {} are {}.'.format(key, pos_tags[key]))
+    for token in pos_tags[key]:
+        assert type(token) == str, 'Each token should be a string'
+
+# %%
+# This is a test cell, please ignore it!
+
+```
+
+**Question:**
+Explain how the code provided clusters the text by Part-of-Speech (POS) tags. What is the expected output of the `pos_tags` dictionary in this context?[Question End]

@@ -1,0 +1,35 @@
+[Question Start]Explain the concept of Term Frequency – Inverse Document Frequency (TFIDF) and its importance in information retrieval. Provide a brief overview of how TFIDF is calculated and normalized over documents.[Question End]
+
+[Question Start]Using the given example corpus, calculate the TFIDF value for the term "dog" in the document "My dog is playful." Show the step-by-step calculation including term frequency (tf), document frequency (df), inverse document frequency (idf), and the final TFIDF value.[Question End]
+
+[Question Start]Discuss the significance of the inverse document frequency (idf) in the TFIDF calculation process. Explain why terms with an idf of 0 cannot be effectively used to distinguish documents within a corpus.[Question End]
+
+[Question Start]### Question
+
+What is the purpose of using Term Frequency – Inverse Document Frequency (TFIDF) in NLP?
+
+- A) To count occurrences of words in a document
+- B) To normalize over documents and make embeddings that facilitate document distinction
+- C) To calculate the number of documents a term appears in
+- D) To determine the total number of terms in a corpus[Question End]
+
+[Question Start]```python
+# %% [markdown]
+# ### One Hot Encoding C) [10 points]
+# 
+# Train your OneHotModel on the reviews from the training set.
+# 
+# Then create the following matrices / vectors from the training and test dataset:
+# 
+# - ```embed_train```: A 2-dimensional numpy array where the rows are the document embeddings for each document in the training set
+# - ```labels_train```: A 1-dimensional numpy array where each element is the rating (stars) of the review from the training set. The rating at position 3 should correspond to the third row of the ```embed_train``` matrix.
+# - ```embed_test```: A 2-dimensional numpy array where the rows are the document embeddings for each document in the test set
+# - ```labels_test```: A 1-dimensional numpy array where each element is the rating (stars) of the review from the test set. The rating at position 3 should correspond to the third row of the ```embed_test``` matrix.
+# 
+# YOUR CODE HERE
+raise NotImplementedError()
+```
+
+Based on the code snippet provided above, the question for the exam could be:
+
+**Question:** In the context of One Hot Encoding, explain the purpose and expected outputs of the following variables after training the OneHotModel on the reviews from the training set: `embed_train`, `labels_train`, `embed_test`, and `labels_test`. How are these matrices and vectors utilized in the document classification process?[Question End]

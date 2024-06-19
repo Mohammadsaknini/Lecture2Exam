@@ -1,0 +1,38 @@
+[Question Start]How would you differentiate between manual feature engineering and using embeddings in a sentiment classifier? Provide examples of features in each approach and discuss the potential limitations and benefits of each method.[Question End]
+
+[Question Start]Explain the process of building a sentiment classifier using a simple Feedforward Neural Network based on embeddings. Discuss the architecture of the network, including the input layer, hidden layers, output layer, and the role of word embeddings in sentiment classification.[Question End]
+
+[Question Start]In the context of neural language models, discuss the significance of predicting the next word in a sequence given prior words. Explain the concept of sliding windows in feedforward neural language models and how they contribute to enhancing the model's ability to generate coherent text.[Question End]
+
+[Question Start]### Question
+
+Why do neural language models work better than N-gram language models in predicting the next word in a sequence?
+
+- Neural LMs can use word embeddings to generalize from similar words
+- N-gram LMs can handle longer sequences more efficiently
+- Neural LMs rely on manual feature engineering for prediction
+- N-gram LMs have a higher capacity for learning complex patterns[Question End]
+
+[Question Start]```python
+# Implement the encode method in the OneHotEncoder class to encode a single token ID as a one-hot encoded tensor.
+
+class OneHotEncoder:
+    
+    def __init__(self, vocab_size: int):
+        self.vocab_size = vocab_size
+        
+    def encode(self, token_id: int) -> tensor:
+        """
+        Encode a single token ID as a one-hot encoded tensor.
+
+        Args:
+            token_id (int): The token ID to be encoded.
+
+        Returns:
+            tensor: The one-hot encoded tensor representing the input token ID.
+        """
+        # YOUR CODE HERE
+        raise NotImplementedError()
+```
+
+What is the purpose of the `encode` method in the `OneHotEncoder` class based on the provided code snippet?[Question End]

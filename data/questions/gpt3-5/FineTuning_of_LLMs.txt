@@ -1,0 +1,16 @@
+[Question Start]Explain the concept of "Zero Shot Prompting" in the context of NLP and provide an example of a zero-shot prompt scenario.[Question End]
+
+[Question Start]Compare and contrast the advantages and disadvantages of "Few Shot Prompting" in fine-tuning large language models, providing examples of successful and unsuccessful prompts.[Question End]
+
+[Question Start]Discuss the significance of "Prefix-Tuning" in optimizing continuous prompts for text generation in NLP tasks. How does prefix tuning contribute to the efficiency of fine-tuning large language models?[Question End]
+
+[Question Start]Define the "Low-Rank Assumption" in the context of parameter-efficient fine-tuning of large language models. How does this assumption allow for the representation of weight updates using smaller matrices A and B?[Question End]
+
+[Question Start]### QUESTION
+
+What is the main advantage of using the Low-Rank Adaptation method (LoRa) for fine-tuning large language models?
+
+- A) Training smaller matrices A and B instead of large weight matrices ΔW
+- B) Avoiding licensing issues by only publishing the new weight matrices
+- C) Ensuring high performance with low rank assumptions
+- D) Using a large base model without the need for updates[Question End]

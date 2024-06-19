@@ -1,0 +1,16 @@
+[Question Start]What is the fundamental purpose of using Recurrent Neural Networks (RNNs) in Natural Language Processing (NLP) tasks according to the provided lecture content?[Question End]
+
+[Question Start]Explain the significance of Gated Recurrent Unit (GRU) cells in processing sequential data like text or speech within the context of NLP applications.[Question End]
+
+[Question Start]How does Long Short Term Memory (LSTM) address the vanishing gradient problem commonly encountered in traditional RNNs, and why is this important for NLP tasks?[Question End]
+
+[Question Start]Describe the concept of "Teacher Forcing" in the context of training Recurrent Neural Networks (RNNs) for language modeling tasks as indicated in the lecture material.[Question End]
+
+[Question Start]### QUESTION
+
+Why are Recurrent Neural Networks (RNNs) particularly well-suited for processing sequences of data like text or speech in Natural Language Processing (NLP)?
+
+- Because they can generate a sequence of fixed length from a single vector
+- Because they can encode a sequence of variable length as a single vector
+- Because they do not require any embedding layers for processing text data
+- Because they are only effective for tasks like image recognition[Question End]

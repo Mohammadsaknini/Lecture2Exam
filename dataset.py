@@ -204,6 +204,7 @@ class QuestionsGenerator():
             api_key = API_KEY
         if model is None:
             model = MODEL
+        print(base_url, api_key, model)
         self.client = OpenAI(base_url=base_url, api_key=api_key)
         self.model = model
 
@@ -245,6 +246,8 @@ class QuestionsGenerator():
                                                         "custom distribution")
             assert len(code_questions) == len(lectures), ("Number of questions must equal the number of lectures for "
                                                           "custom distribution")
+            
+        total_tokens = 0
 
         module_questions = []  # type: list[Questions]
         for i, lecture in enumerate(lectures):
@@ -260,14 +263,20 @@ class QuestionsGenerator():
                 raise ValueError("Number of Questions can not be {}".format(ft_questions))
 
             # ft questions
-            questions = self.generate(
-                FREE_TEXT_QUESTIONS.format(topic=lecture.topic, content=lecture.content, num_questions=ft_questions))
-            lecture_questions.add_free_text(questions.choices[0].message.content)
+            try:
+                questions = self.generate(
+                    FREE_TEXT_QUESTIONS.format(topic=lecture.topic, content=lecture.content, num_questions=ft_questions))
+                lecture_questions.add_free_text(questions.choices[0].message.content)
+            except Exception as e:
+                print(f"Error generating questions for lecture {i + 1} - {lecture.topic}")
+                continue
 
+            total_tokens += questions.usage.total_tokens
             # mc questions
             for _ in range(mc_questions[i]):
                 questions = self.generate(MC_QUESTIONS.format(topic=lecture.topic, content=lecture.content))
                 lecture_questions.add_question(questions.choices[0].message.content)
+                total_tokens += questions.usage.total_tokens
 
             # code questions
             if lecture.dependencies is not None:
@@ -275,16 +284,17 @@ class QuestionsGenerator():
                     code_content = [i for i in lecture.dependencies]
                     questions = self.generate(CODE_QUESTIONS.format(topic=lecture.topic, content=code_content))
                     lecture_questions.add_question(questions.choices[0].message.content)
+                    total_tokens += questions.usage.total_tokens
 
             module_questions.append(lecture_questions)
-
-            with open(f"questions/{lecture.topic}.txt", "w", encoding="utf-8") as f:
-                f.write(str(lecture_questions))
-
             if verbose:
                 print(f"Questions for lecture {i + 1} - {lecture.topic}")
                 print(lecture_questions)
+                print(total_tokens)
                 print("\n\n")
+
+            with open(f"data/questions/{lecture.topic}.txt", "w", encoding="utf-8") as f:
+                f.write(str(lecture_questions))
 
         pickle.dump(module_questions, open("data/store/questions.pkl", "wb"))
         return module_questions

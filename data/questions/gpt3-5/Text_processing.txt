@@ -1,0 +1,26 @@
+[Question Start]How does the Byte Pair Encoding (BPE) token learner algorithm work for subword tokenization? Explain the process of merging tokens and how it contributes to building a vocabulary in the context of text normalization and tokenization.[Question End]
+
+[Question Start]Discuss the importance and application of Lemmatization in text processing. Provide examples and explain how lemmatization helps in representing words in their base forms for tasks like sentiment analysis, machine translation, and information extraction.[Question End]
+
+[Question Start]Compare and contrast Stemming and Lemmatization as text normalization techniques. Explain the differences in their approaches to reducing terms to their base forms and discuss the potential errors of both over-generalizing and under-generalizing that can occur in stemming processes.[Question End]
+
+[Question Start]### QUESTION
+
+What is the purpose of Byte Pair Encoding (BPE) in text tokenization?
+
+- To segment words based on white-space separation
+- To reduce terms to stems using linguistic rules
+- To tokenize based on character frequency in the training corpus
+- To standardize words into their lemma form[Question End]
+
+[Question Start]**Question:**
+
+In the given code snippet, a class `BPETokenizer` is defined that implements the Byte Pair Encoding (BPE) Tokenizer. The class has methods `train`, `encode`, and `decode` for training the tokenizer, encoding/tokenizing text, and decoding tokenized text, respectively.
+
+Explain the purpose and functionality of each of the following methods in the `BPETokenizer` class:
+
+1. `train`
+2. `encode`
+3. `decode`
+
+Provide a brief overview of what each method does based on the comments and docstrings provided in the code snippet.[Question End]

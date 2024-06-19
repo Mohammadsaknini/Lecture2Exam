@@ -1,0 +1,59 @@
+[Question Start]In the context of Word2Vec's Negative Sampling Skip Gram Model, why is it important to include negative examples in the training data? How does the absence of negative examples affect the model's performance?[Question End]
+
+[Question Start]Explain the process of creating negative examples in the Word2Vec model according to the frequency of words. Why is sampling based on word frequency essential for training the model effectively in natural language processing tasks?[Question End]
+
+[Question Start]How does the Negative Sampling Skip Gram Model in Word2Vec address the issue of creating negative examples efficiently? Describe the significance of sampling based on the frequency of words and its impact on improving the model's ability to capture semantic relationships between words.[Question End]
+
+[Question Start]### QUESTION
+
+What is the purpose of negative sampling in the Word2Vec model?
+
+- To create a balanced dataset with an equal number of positive and negative examples
+- To improve the model's accuracy by reducing the number of training examples
+- To create synthetic negative examples to train the model more efficiently
+- To eliminate the need for positive examples in the training dataset[Question End]
+
+[Question Start]```python
+# %% [markdown]
+# ## Creating a vector model with helper functions [30 points]
+# 
+# In the code snippet below, a class `VectorModel` is provided with methods for working with word embeddings. Your task is to complete the methods in the class based on the provided descriptions. 
+
+# %% 
+from typing import List, Tuple, Dict
+import numpy as np
+
+class VectorModel:
+    
+    def __init__(self, vector_dict: Dict[str, np.ndarray]):
+        # YOUR CODE HERE
+        raise NotImplementedError()
+        
+    def embed(self, word: str) -> np.ndarray:
+        # YOUR CODE HERE
+        raise NotImplementedError()
+    
+    def vector_size(self) -> int:
+        # YOUR CODE HERE
+        raise NotImplementedError()
+    
+    def cosine_similarity(self, vec1: np.ndarray, vec2: np.ndarray) -> float:
+        # YOUR CODE HERE
+        raise NotImplementedError()
+
+    def most_similar(self, word: str, top_n: int=5) -> List[Tuple[str, float]]:
+        # YOUR CODE HERE
+        raise NotImplementedError()
+        
+    def most_similar_vec(self, vec: np.ndarray, top_n: int=5) -> List[Tuple[str, float]]:
+        # YOUR CODE HERE
+        raise NotImplementedError()
+```
+
+**Question:** In the context of word embeddings and similarity calculations, explain the purpose and functionality of the following methods in the `VectorModel` class:
+1. `embed(word: str) -> np.ndarray`
+2. `cosine_similarity(vec1: np.ndarray, vec2: np.ndarray) -> float`
+3. `most_similar(word: str, top_n: int=5) -> List[Tuple[str, float]]`
+4. `most_similar_vec(vec: np.ndarray, top_n: int=5) -> List[Tuple[str, float]]`
+
+Explain briefly what each method is responsible for and how it contributes to working with word embeddings.[Question End]

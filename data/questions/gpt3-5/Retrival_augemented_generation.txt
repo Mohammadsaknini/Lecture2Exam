@@ -1,0 +1,16 @@
+[Question Start]Explain the significance of transformers in NLP models and how they differ from traditional sequence models.[Question End]
+
+[Question Start]Discuss the challenges associated with sequence length in transformer models and how practitioners aim to address this issue.[Question End]
+
+[Question Start]What is a Retrieval Augmented Generator (RAG) system, and how does it help in reducing the context size for document retrieval and generation tasks?[Question End]
+
+[Question Start]Describe the process of document retrieval in the context of RAG systems, including the use of vector search techniques and algorithms like TF-IDF and BM25.[Question End]
+
+[Question Start]### Question
+
+What is a key advantage of transformers that solves a problem faced by earlier sequence models in NLP?
+
+- Ability to process sequences element by element
+- Ability to easily parallelize computation
+- Capability to consume the entire sequence at once as input
+- Efficiency in calculating the matrix of pairwise attentions[Question End]

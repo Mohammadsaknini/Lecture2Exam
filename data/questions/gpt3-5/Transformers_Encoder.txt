@@ -1,0 +1,16 @@
+[Question Start]Explain the concept of self-attention in the context of Transformers and its significance in natural language processing tasks. Provide an example of how self-attention is utilized in processing input sequences.[Question End]
+
+[Question Start]How does the process of tokenization differ between Word2Vec and FastText techniques? Provide a detailed explanation of how FastText can represent out-of-vocabulary words more effectively compared to Word2Vec.[Question End]
+
+[Question Start]Describe the algorithm for WordPiece Tokenization and its significance in processing text data for transformer models like BERT. Provide steps on how WordPiece Tokenization splits text into tokens and builds a vocabulary.[Question End]
+
+[Question Start]Discuss the importance of adding special tokens like [CLS], [PAD], [SEP], and [MASK] during the preprocessing of text data for transformer models. Explain the role of each special token and how they contribute to the overall understanding of the input sequence by the model.[Question End]
+
+[Question Start]### Question
+
+What is a key characteristic of Transformer Encoders?
+
+- Utilizes self-attention mechanism
+- Uses Recurrent Neural Networks (RNN)
+- Works on fixed sequence length only
+- Only processes tokens one by one[Question End]

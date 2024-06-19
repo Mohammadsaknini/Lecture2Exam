@@ -1,0 +1,16 @@
+[Question Start]In the context of the Transformer Decoder and Large Language Models, what is the significance of the attention mechanism in processing input sequences and generating output tokens?[Question End]
+
+[Question Start]How does the Transformer Decoder handle the prediction of the next token in a sequence, and what methods can be used to determine the next word based on the model's output probabilities?[Question End]
+
+[Question Start]Describe the process involved in training language models like GPT to follow instructions with human feedback, and why is this fine-tuning process essential for improving model performance?[Question End]
+
+[Question Start]Explain the importance of training models to summarize human feedback and how this process contributes to enhancing the capabilities of large language models in natural language processing tasks like text summarization.[Question End]
+
+[Question Start]### Multiple Choice Question:
+
+In the context of Transformer decoders and Large Language Models, what is the purpose of training language models with human feedback according to Ouyang et al (OpenAI), 2021?
+
+- A) To reduce the number of model parameters for faster inference
+- B) To ensure that models are aligned with their users and produce desired outputs
+- C) To increase the complexity of the model architecture for improved performance
+- D) To eliminate the need for human supervision in training the models[Question End]

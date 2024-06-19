@@ -1,0 +1,20 @@
+[Question Start]In the context of "Static_embedding_OneHot_encoding," why is it essential to represent words as vectors in a vector space? Provide three reasons to support your answer.[Question End]
+
+[Question Start]How does one-hot encoding help in creating dense vector representations of words in natural language processing tasks? Explain the process and its significance in modern NLP applications.[Question End]
+
+[Question Start]Discuss the significance of expert knowledge and domain-dependent approaches in determining the dimensions to use for word embeddings in NLP. How can these factors influence the effectiveness of language models utilizing word vectors?[Question End]
+
+[Question Start]### QUESTION
+
+What is the primary purpose of using one-hot encoding in the context of word embeddings?
+
+- To convert categorical variables into numerical form for machine learning algorithms
+- To perform sophisticated vector operations on words
+- To visualize the semantic relationships between words in a vector space
+- To streamline the process of tokenization for NLP tasks[Question End]
+
+[Question Start]```python
+# %%\ndef bagOfWords(model: EmbeddingModel, doc: List[str]) -> np.ndarray:\n    \'\'\'\n    Create a document embedding using the bag of words approach\n    \n    Args:\n        model     -- The embedding model to use\n        doc       -- A document as a list of tokens\n        \n    Returns:\n        embedding -- The embedding for the document as a single vector \n    \'\'\'\n    # YOUR CODE HERE\n    raise NotImplementedError()\n\n\n# Create a one hot model and train it on a dummy corpus\nmodel = OneHotModel()\ncorpus = [[\'i\', \'like\', \'pizza\'],\n          [\'do\', \'you\', \'like\', \'pizza\'],\n          [\'everybody\', \'likes\', \'pizza\', \'or\', \'fries\']]\n\n# Train the model on the corpus\nmodel.train(corpus)\n\n# Create a document embedding for the sample document\ndoc = [\'you\', \'like\', \'many\', \'fries\', \'fries\']\n\n# This should create the embedding: [0, 0, 0.5, 0, 0.25, 0, 0, 0, 0.25]\nbagOfWords(model, doc)
+```
+
+Based on the code snippet above, explain the concept of creating a document embedding using the bag of words approach. What are the key steps involved in generating the document embedding using this method?[Question End]
