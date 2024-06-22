@@ -4,6 +4,11 @@ BASE_URL = "http://localhost:8085/v1"
 API_KEY = "lm-studio"
 
 QUESTION_PATTERN = r'\[Question Start\](.*?)\[Question End\]'
+TOKEN_SANITATION_PATTERNS = {
+    r'\[CLS\]': '[class]',
+    r'\[IDS\]': '[image description start]',
+    r'\[IDE\]': '[image description end]',
+}
 
 EVAL_BASE_URL = "http://localhost:1234/v1"
 EVAL_MODEL = "bartowski/Mistral-7B-Instruct-v0.3-GGUF"
