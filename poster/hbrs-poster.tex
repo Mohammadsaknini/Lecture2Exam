@@ -1,5 +1,5 @@
-\documentclass[25pt,
-               a0paper,
+\documentclass[20 pt,
+               a1paper,
                portraitmargin = 0mm,
                margin = 0mm,
                innermargin = 50mm,
@@ -14,6 +14,7 @@
 \usepackage{subfiles}
 \usepackage{url}
 \usepackage{listings}
+\usepackage{caption}
 \usepackage[skins]{tcolorbox}
 \usetikzlibrary{positioning, calc}
 
@@ -25,18 +26,18 @@
     \input{subfiles/layout}
 
     \begin{columns}
-        \column{0.6}
-        \subfile{subfiles/workflow}
-
-        \column{0.4}
+        \column{1.0}
         \subfile{subfiles/section1}
     \end{columns}
-    \begin{columns}
- 
-        \column{0.6} 
 
-        \column{0.4}
-        \subfile{subfiles/section2}
+    \begin{columns}
+        \column{1.0}
+        \subfile{subfiles/workflow}
+    \end{columns}
+
+    \begin{columns}
+        \column{1}
+        \subfile{subfiles/results}
     \end{columns}
 	
 	
