@@ -1,0 +1,71 @@
+%itemize
+\setitemize{labelindent=1.5em,labelsep=1em,leftmargin=*}
+\setenumerate{labelindent=1.5em,labelsep=1em,leftmargin=*}
+
+
+%%%%% remove inner sep within fbox
+\setlength{\fboxsep}{0pt}%
+\setlength{\fboxrule}{1pt}%
+
+%%%%% Remove “LaTeX Tikzposter” in bottom right corner
+\tikzposterlatexaffectionproofoff
+
+%%%%% Font family
+\renewcommand{\familydefault}{\sfdefault}
+
+
+%%%%% layout %%%%%
+\definecolor{b-it_blue}{HTML}{016ABA}
+\definecolor{b-it-bots_blue}{HTML}{0071BD}
+\definecolor{brsu_blue}{HTML}{0BA1E2}
+\definecolor{mas-group_dark-blue}{HTML}{0072bb}
+\definecolor{mas-group_light-blue}{HTML}{2889c7}
+\definecolor{mas-group_cyan}{HTML}{42a3e1}
+\definecolor{mas-group_light-gray}{HTML}{dcdcdc}
+\definecolor{mas-group_dark-gray}{HTML}{8c8c8c}
+
+
+% color scheme
+\usetheme{Simple}
+\definecolorstyle{BrsuColorStyle}
+{
+	\definecolor{colorOne}{named}{white}
+	\definecolor{colorTwo}{named}{black}
+	\definecolor{colorThree}{named}{b-it_blue}
+}
+{
+	\colorlet{backgroundcolor}{colorOne}
+	\colorlet{framecolor}{colorOne}	
+	\colorlet{titlefgcolor}{colorThree}
+	\colorlet{titlebgcolor}{colorOne}
+	\colorlet{blocktitlebgcolor}{colorOne}
+	\colorlet{blocktitlefgcolor}{brsu_blue}
+	\colorlet{blockbodybgcolor}{colorOne}
+	\colorlet{blockbodyfgcolor}{colorTwo}
+}
+\usecolorstyle{BrsuColorStyle}
+
+
+% blocks
+\defineblockstyle{BrsuBlockStyle}
+{
+	titlewidthscale=1.0, 
+	bodywidthscale=1.0,
+	titleleft,
+	titleoffsetx=-5mm,
+	titleoffsety=0mm,
+	bodyoffsetx=0mm,
+	bodyoffsety=0mm,
+	bodyverticalshift=8mm,
+	roundedcorners=0,
+	linewidth=0pt,
+	titleinnersep=5mm,
+	bodyinnersep=0mm
+}{
+	\draw[color=framecolor, fill=blockbodybgcolor, rounded corners=\blockroundedcorners] (blockbody.south west) rectangle (blockbody.north east);
+	\ifBlockHasTitle
+		%\draw[color=framecolor, fill=blocktitlebgcolor, rounded corners=\blockroundedcorners] (blocktitle.south west) rectangle (blocktitle.north east);
+		\draw [dash pattern=on 5pt off 10pt, color=brsu_blue, line width = 2mm] (blockbody.north west) -- (blockbody.north east);	
+	\fi
+}
+\useblockstyle{BrsuBlockStyle}
