@@ -1,0 +1,53 @@
+%!TEX root = ../hbrs-poster.tex
+
+
+\block{Pipeline}
+{
+	% The proposed LLM pipeline for generating exam questions from lecture notes encompasses several key stages: preprocessing, model selection, question generation, and question evaluation.
+	% \bigbreak
+	\bigbreak
+    \textbf{Preprocessing}
+	The preprocessing stage involves converting various input formats, such as PDFs, images, and structured data, into a clean text format. 
+	% The text is carefully cleaned up for better readability while preserving the meaning and technical terms. 
+	% This step is crucial for ensuring that the input data is well-organized and ready for accurate processing by the model. 
+	% Text is reformatted for clarity, with non-sensical letters removed to improve the overall quality of the input. Note: Essentially we planned to do use Retrieval Augmented Generation (RAG) approach, but it seemed unreasonable to group up the lectures to then split them up again, hence we decided against it.
+	
+	\bigbreak
+	\bigbreak
+ 	% \textbf{Model Selection}
+ 	% The models were based on two main factors:
+ 	% \begin{enumerate}
+ 	% 	\item \textbf{Computational efficiency}: The main problem in LLMS currently is that they require a large amounts of compute, which was a limiting factor when choosing models.
+ 	% 	\item \textbf{Context length}: For smaller models a typical context length as 16k tokens, but for some lecture we required up to 25k in order to fit the content in one context window.
+ 	% \end{enumerate}
+ 	% Additionally Fraunhofer INT has agreed to provide us with an API key for the purpose of this project in order to test the capabilities of larger close sourced models such as GPT3.5-Turbo and Omni.
+    % \bigbreak
+    \bigbreak
+    \textbf{Question Generation}
+	During question generation, the selected model is tasked with creating a diverse set of questions based on the lecture content. 
+	% The process is initiated by a prompt given to the model, specifying the type and number of questions required. The model is able to generate multiple-choice questions, coding questions, and free-text questions, ensuring a comprehensive assessment that covers various cognitive skills and difficulty levels.
+	\begin{tcolorbox}[skin=widget,
+		coltitle=black,
+		colframe=brsu_blue!30,
+		colback=brsu_blue!10,
+  		adjusted title=Example multiple choice question:,
+		boxrule=2mm]
+	What is the primary purpose of training language models with human feedback according to the lecture content?
+	\tcblower
+
+	A) To make the models align with their users' preferences.\newline
+	B) To reduce the cost of manual data labeling.\newline
+	C) To increase the complexity of large prompt datasets.\newline
+	D) To automate the process of fine-tuning language models.\newline
+
+	\end{tcolorbox}
+
+ 	\bigbreak
+	\bigbreak
+	\textbf{Question Evaluation}
+	
+	The final stage involves evaluating the generated questions to ensure their relevance, difficulty, and overall coverage of the lecture material. 
+	% This evaluation is performed by assessing the alignment of each question with the lecture content, using specific criteria such as difficulty score, relevance score, and overall coverage. 
+	% The model's reasoning is also reviewed to confirm the appropriateness and clarity of the questions. Detailed answer is also provided, which allows us to understand the reason behind the models decisions. 
+}
+

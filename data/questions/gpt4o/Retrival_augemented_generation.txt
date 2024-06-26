@@ -1,0 +1,16 @@
+[Question Start]What are the main advantages of using Retrieval-Augmented Generation (RAG) systems in the context of handling large volumes of documents and information in a corporate environment?[Question End]
+
+[Question Start]How do transformers solve the problem of parallelization in sequence-to-sequence models and why is this significant for NLP tasks?[Question End]
+
+[Question Start]Explain the role of embedding text sequences into a vector space in the context of information retrieval. How do techniques like BERT and SentenceBert facilitate this process?[Question End]
+
+[Question Start]Discuss the challenges associated with computing all attention scores in transformers, especially in relation to sequence length and memory usage. How do the proposed state spaces and hierarchical attention methods aim to address these challenges?[Question End]
+
+[Question Start]### QUESTION
+
+What is the primary advantage of using Retrieval-Augmented Generation (RAG) in natural language processing tasks?
+
+- It allows for the parallel processing of sequences.
+- It reduces the context size by selecting only relevant documents.
+- It replaces the need for token embeddings in transformer models.
+- It eliminates the need for attention mechanisms in language models.[Question End]

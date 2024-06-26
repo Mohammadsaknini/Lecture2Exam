@@ -1,0 +1,17 @@
+\block{}
+{
+\begin{tikzpicture}[remember picture,overlay]
+\pgfmathsetmacro\barwidth{2.86}
+\pgfmathsetmacro\topbarlength{13}
+
+% left side
+\node at (current page.north west) {\draw [fill=b-it_blue, draw=b-it_blue] (-0.14,0) rectangle (\barwidth, -\topbarlength);};
+\node at (current page.north west) {\draw [fill=brsu_blue, draw=brsu_blue] (-0.14,-14) rectangle (\barwidth,-110);};  \node at (current page.south west) {\draw [fill=mas-group_dark-gray, draw=mas-group_dark-gray] (-0.14, 8) rectangle (\barwidth, 0);};
+
+% top right
+\node at (current page.north east) {\draw [fill=b-it_blue, b-it_blue] (-0.36,0) rectangle (-3.36,-119);};
+\node at (current page.north east) {\draw [fill=brsu_blue, brsu_blue] (-4.36,0) rectangle (-7.36,-\topbarlength / 4 * 3);};
+\node at (current page.north east) {\draw [fill=mas-group_dark-gray, mas-group_dark-gray] (-8.36,0) rectangle (-11.36,-\topbarlength / 4 * 2);};
+\node at (current page.north east) {\draw [fill=mas-group_light-gray, mas-group_light-gray] (-12.36,0) rectangle (-15.36,-\topbarlength / 4);};
+\end{tikzpicture}%
+}

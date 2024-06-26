@@ -76,7 +76,7 @@ class Evaluator:
         self.total_tokens = 0
         self.question_eval_prompt: dict[str, str] = {
             'system': 'You are given the task of evaluating an examination question given the lecture content within '
-                      '<lecture> </lecture> and question within <question> </question> tags.  Always provide a '
+                      '<lecture> </lecture> and question within <question> </question> tags. Always provide a '
                       'response in the following format using the appropriate tags:\n\n <reasoning>explain your '
                       'evaluation in detail, including the section of the lecture that the question covers and your '
                       'reasoning for the evaluation in markdown text and close with</reasoning> <relevance>an integer '
@@ -194,6 +194,37 @@ class Evaluator:
             result[tag].append(content)
 
         return dict(result)
+    
+
+    def sanitize_tokens(self,
+                        text: str,
+                        token_patterns: dict[str, str] = None,
+                        ) -> str:
+        """
+        Clean a given text by replacing specific token patterns with their replacements.
+
+        Parameters:
+            text (str): The input string from which certain tokens are to be sanitized.
+            token_patterns (dict[str, str], optional): A dictionary where keys represent 
+                regex patterns for the tokens and values represent the replacement 
+                strings. If None, uses config.TOKEN_SANITATION_PATTERNS instead.
+
+        Returns:
+            str: The input text after sanitization of tokens based on provided or default 
+            patterns.
+
+        """ 
+
+        token_patterns = config.TOKEN_SANITATION_PATTERNS if token_patterns is None \
+                                else token_patterns
+
+        for token_pattern in token_patterns:
+            regex = re.compile(token_pattern)
+
+            text = regex.sub(token_patterns[token_pattern], text)
+
+        return text
+
 
     def evaluate_lectures(self,
                           ) -> None:
@@ -220,7 +251,9 @@ class Evaluator:
                     {'role': 'user', 'content':
                         self.question_eval_prompt['user'] \
                             .format(
-                            lecture_content=self.lectures[lecture_index].content,
+                            lecture_content=self.sanitize_tokens(
+                                    self.lectures[lecture_index].content
+                                ),
                             question_content=question
                         )},
                 ]
@@ -243,7 +276,9 @@ class Evaluator:
                 {'role': 'user', 'content':
                     self.overall_eval_prompt['user'] \
                         .format(
-                        lecture_content=self.lectures[lecture_index].content,
+                        lecture_content=self.sanitize_tokens(
+                                self.lectures[lecture_index].content
+                            ),
                         question_content=question_text_all
                     )},
             ]

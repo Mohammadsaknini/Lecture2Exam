@@ -1,0 +1,47 @@
+\documentclass[20 pt,
+               a1paper,
+               portraitmargin = 0mm,
+               margin = 0mm,
+               innermargin = 50mm,
+               blockverticalspace = 15mm,
+               colspace = 40mm,
+               subcolspace = 8mm]
+               {tikzposter}
+
+\usepackage[utf8]{inputenc}
+\usepackage{wrapfig}
+\usepackage{enumitem}
+\usepackage{subfiles}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage[skins]{tcolorbox}
+\usetikzlibrary{positioning, calc}
+
+\input{subfiles/brsu_poster_config}
+\input{subfiles/poster_title}
+
+\begin{document}
+    \maketitle[width=0.85\textwidth]
+    \input{subfiles/layout}
+
+    \begin{columns}
+        \column{1.0}
+        \subfile{subfiles/section1}
+    \end{columns}
+
+    \begin{columns}
+        \column{1.0}
+        \subfile{subfiles/workflow}
+    \end{columns}
+
+    \begin{columns}
+        \column{.6}
+        \subfile{subfiles/results}
+        \column{.4}
+        \subfile{subfiles/section3}
+    \end{columns}
+    
+
+    \subfile{subfiles/footer}
+\end{document}

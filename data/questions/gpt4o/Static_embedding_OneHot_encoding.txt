@@ -1,0 +1,70 @@
+[Question Start]What are the key reasons for converting words into vectors in Natural Language Processing (NLP)?[Question End]
+
+[Question Start]Explain how one-hot encoding works and provide an example using a simple sentence.[Question End]
+
+[Question Start]How can expert knowledge and domain dependency influence the selection of dimensions in word embeddings?[Question End]
+
+[Question Start]### QUESTION
+
+What is the primary purpose of using OneHot encoding in the context of word embeddings?
+
+- To convert words into a dense vector representation that captures their semantic meaning
+- To ensure each word in a vocabulary is represented by a unique binary vector
+- To reduce the dimensionality of the word vector space
+- To directly perform sentiment analysis on text data[Question End]
+
+[Question Start]### Exam Question on Static Embedding - OneHot Encoding
+
+Consider the following code snippet:
+
+```python
+class OneHotModel(EmbeddingModel):
+    
+    def build_index(self, docs: List[List[str]]) -> None:
+        '''Create an index for the vocabulary from the docs'''
+        self.index = dict()
+        # YOUR CODE HERE
+        for doc in docs:
+            for token in doc:
+                if token not in self.index:
+                    self.index[token] = len(self.index)
+    
+    def train(self, docs: List[List[str]]) -> None:
+        '''Train our model with a list of documents'''
+        self.build_index(docs)
+        self.vocab_size = len(self.index)
+    
+    def embed(self, word: str) -> np.ndarray:
+        '''Embed a word into our one hot vector space'''
+        if word in self.index:
+            one_hot_vector = np.zeros(self.vocab_size)
+            one_hot_vector[self.index[word]] = 1
+            return one_hot_vector
+        return None
+    
+    def vector_size(self) -> int:
+        '''Return the length of the embedding'''
+        return self.vocab_size
+
+# Create a one hot model and train it on a dummy corpus
+model = OneHotModel()
+corpus = [['i', 'like', 'pizza'],
+          ['do', 'you', 'like', 'pizza'],
+          ['everybody', 'likes', 'pizza', 'or', 'fries']]
+
+# Train the model on the corpus
+model.train(corpus)
+
+# Create a document embedding for the sample document
+doc = ['you', 'like', 'many', 'fries', 'fries']
+```
+
+**Question:**
+
+1. Analyze the `build_index` method of the `OneHotModel` class. Explain how it creates the dictionary `self.index` and what its purpose is within the context of one-hot encoding.
+  
+2. In the `embed` method, what will be the resulting one-hot encoded vector for the word `'pizza'` after the `model` has been trained on the given `corpus`? Provide a detailed explanation of how the vector is constructed.
+
+3. Given the sample document `doc = ['you', 'like', 'many', 'fries', 'fries']`, explain step-by-step how the `bagOfWords` function (assume it is correctly implemented) would create the document embedding using the trained `OneHotModel`. What is the final document embedding vector? 
+
+**Note:** You do not need to implement the `bagOfWords` function, just explain its expected behavior based on the `OneHotModel`.[Question End]
