@@ -1,0 +1,52 @@
+[Question Start]Explain the primary goal of Natural Language Processing (NLP) and how it utilizes theoretical linguistics to achieve this goal.[Question End]
+
+[Question Start]Describe the challenges NLP faces when dealing with speech-to-text conversion and provide examples of specific issues that can arise.[Question End]
+
+[Question Start]Discuss the differences and applications of text classification and sentiment analysis in the context of NLP, using examples such as spam classification and customer feedback analysis.[Question End]
+
+[Question Start]### QUESTION
+
+Which of the following tasks is NOT commonly associated with Natural Language Processing (NLP)?
+
+- Text Classification / Sentiment Analysis / Moderation Systems
+- Image Captioning
+- Text Summarization
+- File Compression / Decompression[Question End]
+
+[Question Start]### Question: Understanding Named Entity Recognition and POS Tagging with spaCy
+
+Consider the following code snippet that uses spaCy to perform Named Entity Recognition (NER) and Part-of-Speech (POS) tagging on a given text. Based on your understanding of spaCy and the lecture content, answer the questions that follow:
+
+```python
+import spacy
+
+# Load the English language model
+nlp = spacy.load('en_core_web_sm')
+
+# Sample input text
+text = 'Apple is looking at buying U.K. startup for $1 billion.'
+
+# Parse the input text
+doc = nlp(text)
+
+# Extract named entities
+entities = [(ent.text, ent.label_) for ent in doc.ents]
+
+# Extract POS tags and their corresponding words
+pos_tags = [(token.text, token.pos_) for token in doc]
+
+print("Named Entities:", entities)
+print("POS Tags:", pos_tags)
+```
+
+#### Questions:
+
+1. What are Named Entities, and how does spaCy identify them in the provided code?
+2. Explain the significance of the `nlp` object in the code snippet. What role does it play in processing the text?
+3. Based on the code provided, what are the named entities identified in the sample input text, and what are their respective labels?
+4. Describe the output of the `pos_tags` list comprehension. What kind of information does it contain about the tokens in the text?
+5. The text contains "U.K." and "$1 billion." as parts of the sentence. How does spaCy typically handle abbreviations and numerical values in terms of tokenization and named entity recognition?
+
+---
+
+Remember, you do not need to execute the code. Just provide explanations based on the provided code snippet and your understanding of spaCy's functionalities as discussed in the lecture.[Question End]
