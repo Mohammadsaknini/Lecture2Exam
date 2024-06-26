@@ -22,7 +22,7 @@
 \input{subfiles/poster_title}
 
 \begin{document}
-    \maketitle[width=0.88\textwidth]
+    \maketitle[width=0.85\textwidth]
     \input{subfiles/layout}
 
     \begin{columns}
@@ -36,35 +36,29 @@
     \end{columns}
 
     \begin{columns}
-        \column{1}
+        \column{.6}
         \subfile{subfiles/results}
+        \column{.4}
+        \subfile{subfiles/section3}
     \end{columns}
+    
 	
-	
-% \begin{columns}
-%	\column{0.6}
-%	
-%	\column{0.4}
-%    \block{References}
-%	{
-%		\small
-%		\begingroup
-%		\nocite{*}
-%		\renewcommand\refname{\vskip -2cm}
-%		\bibliography{references}
-%		\bibliographystyle{unsrt}
-%		\endgroup
-%	}
-%	\end{columns}
-
-
     \begin{columns}
         \column{0.6}
 		\subfile{subfiles/contact}
 		
         \column{0.4}
-        \subfile{subfiles/acknowledgements}
+
+
     \end{columns}
+        \begin{columns}
+    	\column{0.6}
+         \subfile{subfiles/acknowledgements}
+    	
+    	\column{0.4}
+
+    \end{columns}
+
 
     \subfile{subfiles/footer}
 \end{document}
