@@ -13,6 +13,7 @@
 \usepackage{enumitem}
 \usepackage{subfiles}
 \usepackage{url}
+\usepackage{tabularx}
 \usepackage{listings}
 \usepackage{caption}
 \usepackage[skins]{tcolorbox}
@@ -20,6 +21,9 @@
 
 \input{subfiles/brsu_poster_config}
 \input{subfiles/poster_title}
+
+% Define a new column type "Y" for tabularx that centers text
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
 
 \begin{document}
     \maketitle[width=0.85\textwidth]
