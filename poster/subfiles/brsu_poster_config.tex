@@ -73,3 +73,21 @@
 	\fi
 }
 \useblockstyle{BrsuBlockStyle}
+
+\makeatletter
+\newcounter{tablecounter}
+\newenvironment{tikztable}[1][]{
+	\def \rememberparameter{#1}
+	\vspace{10pt}
+	\refstepcounter{tablecounter}
+	\begin{center}
+	}{
+		\ifx\rememberparameter\@empty
+		\else
+		\\[10pt]
+		{\small Tab.~\thetablecounter: \rememberparameter}
+		\fi
+	\end{center}
+}
+\makeatother
+
