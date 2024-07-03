@@ -8,14 +8,22 @@ First, we asked the models to evaluate themselves based mainly on the difficulty
 
 The takeaway from these results is that all models considered the generated questions relevant to the given context, but they varied in their difficulty. The local model showed much higher variance than GPT-3.5 Turbo and GPT-4o. On the other hand, GPT-4o tended to generate only difficult questions. Additionally, we observed that GPT-3.5 Turbo and the local model had some issues, as indicated by the (0,0) position, meaning their answers could not be validated, whereas GPT-4o had no issues providing the correct format.
 
-Additionally, we conducted a live survey in which we asked 26 participants to identify the human-generated questions from four different groups of questions. Each group contained three questions from an anonymous model (those mentioned above) and an additional group containing human-written questions. Notably, the participants were all knowledgeable about LLMs, and the majority had taken part in the course from which the questions were generated from.
+Additionally, we conducted a live survey in which we asked 29 participants to identify the human-generated questions from four different groups of questions. Each group contained three questions from an anonymous model (those mentioned above) and an additional group containing human-written questions. Notably, the participants were all knowledgeable about LLMs, and the majority had taken part in the course from which the questions were generated from.
 
-The questions can be found under the survey section in ![Alt text]()
+The groups in the survey were as follows:
+![Alt text](https://github.com/MohammadSakhnini/Lecture2Exam/blob/main/poster/figures/questions.png?raw=true)
 
-The results were
+<font color="red" style="font-weight: bold">Before checking the results, try to identify the human-generated questions yourself!</font>
 
-| Group1  | Group 2 | Group 3 | Group 4 |
-|---------|---------|---------|---------|
-| 3       | 8       | 4       | 11      |
+<details>
+  <summary>Results</summary>
 
+  |   	| Group 1 (Local) 	| Group 2 (GPT4o) 	| Group 3 (GPT3.5T) 	| Group 4 (Human) 	|
+|:-:	|:---------------:	|:---------------:	|:-----------------:	|:---------------:	|
+|   	|        4        	|        9        	|         4         	|        12       	|
+
+Based on the results we see that the LLMs have recived 58% of the votes, while the human questions have recived 42% of the votes. This shows that the LLMs are able to generate questions that are similar to human generated questions.
+
+After the participants completed the survey, we asked them to reason why they chose the group they did. The most common reason for choosing group 4 was that the questions were more "human-like" and that it contained a typo.
+</details>
 
