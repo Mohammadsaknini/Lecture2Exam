@@ -13,17 +13,20 @@ Additionally, we conducted a live survey in which we asked 29 participants to id
 The groups in the survey were as follows:
 ![Alt text](https://github.com/MohammadSakhnini/Lecture2Exam/blob/main/poster/figures/questions.png?raw=true)
 
-<font color="red" style="font-weight: bold">Before checking the results, try to identify the human-generated questions yourself!</font>
+### Before checking the results, try to identify the human-generated questions yourself!
 
 <details>
   <summary>Results</summary>
 
-  |   	| Group 1 (Local) 	| Group 2 (GPT4o) 	| Group 3 (GPT3.5T) 	| Group 4 (Human) 	|
-|:-:	|:---------------:	|:---------------:	|:-----------------:	|:---------------:	|
-|   	|        4        	|        9        	|         4         	|        12       	|
+<br>
+
+| Group 1 (Local) 	| Group 2 (GPT4o) 	| Group 3 (GPT3.5T) 	| Group 4 (Human) 	|
+|:---------------:	|:---------------:	|:-----------------:	|:---------------:	|
+|        4        	|        9        	|         4         	|        12       	|
 
 Based on the results we see that the LLMs have recived 58% of the votes, while the human questions have recived 42% of the votes. This shows that the LLMs are able to generate questions that are similar to human generated questions.
 
-After the participants completed the survey, we asked them to reason why they chose the group they did. The most common reason for choosing group 4 was that the questions were more "human-like" and that it contained a typo.
+ The human group received the most votes, followed by the GPT-4o group. The local model and GPT-3.5 Turbo received the least votes. After the participants completed the survey, we asked them to reason why they chose the group they did. The most common reason for choosing group 4 was that the questions were more "human-like" and that it contained a typo. 
+
 </details>
 
