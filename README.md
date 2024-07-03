@@ -29,4 +29,11 @@ Based on the results we see that the LLMs have recived 58% of the votes, while t
  The human group received the most votes, followed by the GPT-4o group. The local model and GPT-3.5 Turbo received the least votes. After the participants completed the survey, we asked them to reason why they chose the group they did. The most common reason for choosing group 4 was that the questions were more "human-like" and that it contained a typo. 
 
 </details>
+<br>
 
+# Usage
+To use the pipeline, you need to follow these steps:
+
+1. Make sure the lectures are named as follows {Number of lecture}-{Lecture Title}.pdf
+2. Place the lectures in the data/lectures folder
+3. In order to be able to generate questions that are based on matrials other than the lecture slides such as assignments, you need to place the files in the data/assignments folder.

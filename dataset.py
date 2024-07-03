@@ -53,7 +53,16 @@ class Dataset():
         self._img_model.eval()
         self.lectures = {}  # type: dict[int, Lecture]
 
-    def create_dataset(self):
+    def create_dataset(self, dependencies_map :dict = None):
+        """
+        Create a dataset from the pdf files in the data/lectures folder
+
+        args:
+            dependencies_map (dict): A dictionary of dependencies for the lectures
+            
+        Returns:
+            dict[int, Lecture]: A dictionary of lectures
+        """
         print("Loading files in data/lectures...")
         dir = os.listdir("data/lectures")
         page_counter = 0
@@ -105,7 +114,8 @@ class Dataset():
         with open("data/store/dataset.pkl", "wb") as f:
             pickle.dump(self.lectures, f)
 
-        self.add_dependencies()
+        if dependencies_map:
+            self.add_dependencies(dependencies_map)
         print("Successfully loaded {} pdfs with a total of {} pages".format(len(dir), page_counter))
         return self.lectures
 
@@ -148,9 +158,11 @@ class Dataset():
 
         return f"[IDS] {res} [IDE]"
 
-    def add_dependencies(self) -> dict[int, Lecture]:
+    def add_dependencies(self, depenencies_map: dict) -> dict[int, Lecture]:
         """
         Add dependencies to the lectures based on the excersises in the assignments folder
+
+        dict: A dictionary of lectures with dependencies added
 
         Returns:
             dict[int, Lecture]: The lectures with dependencies added
@@ -167,7 +179,7 @@ class Dataset():
         for lecture in lectures.values():
             lecture.dependencies = None
 
-        for k, v in dependencies.items():
+        for k, v in depenencies_map.items():
             # add standalone excersises to the first lecture
             assignment = open(f"data/assignments/{k}", "r").read()
             assignment = "[Code Start]\n\n" + assignment + "\n\n[Code End]"
