@@ -36,4 +36,4 @@ To use the pipeline, you need to follow these steps:
 
 1. Make sure the lectures are named as follows {Number of lecture}-{Lecture Title}.pdf
 2. Place the lectures in the data/lectures folder
-3. In order to be able to generate questions that are based on matrials other than the lecture slides such as assignments, you need to place the files in the data/assignments folder.
+3. In order to be able to generate questions that are based on materials other than the lecture slides such as assignments, you need to place the files in the data/assignments folder.
