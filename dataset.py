@@ -262,14 +262,14 @@ class QuestionsGenerator():
         self.client = OpenAI(base_url=base_url, api_key=api_key)
         self.model = model
 
-    def generate(self, prompt, class_topic):
+    def generate(self, prompt):
         return self.client.chat.completions.create(
             model=self.model,
             messages=[
                 {"role": "system",
-                 "content": f"You are a Professor. Your task is to setup questions for an upcoming {class_topic} quiz/examination."
+                 "content": f"You are a Professor. Your task is to setup questions for an upcoming {self.class_topic} quiz/examination."
                             "The questions should be diverse in nature across the slides. Restrict the questions to "
-                            "the context information provided."},
+                            "the context information provided. The questions generated must not be exactly in the slides. "},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
@@ -320,6 +320,7 @@ class QuestionsGenerator():
                     FREE_TEXT_QUESTIONS.format(topic=lecture.topic, content=lecture.content, num_questions=ft_questions))
                 lecture_questions.add_free_text(questions.choices[0].message.content)
             except Exception as e:
+                print(e)
                 print(f"Error generating questions for lecture {i + 1} - {lecture.topic}")
                 continue
 
