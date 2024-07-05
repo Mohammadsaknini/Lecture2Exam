@@ -45,13 +45,44 @@ class Lecture():
 
 class Dataset():
 
-    def __init__(self):
+    def __init__(self, class_topic: str, add_text: bool = True):
+
+        """
+        Args:
+            class_topic (str): The topic of the class
+            add_text (bool): Whether to create a text file of the dataset or not.
+        """
+        self.class_topic = class_topic
+        self.add_text = add_text
+        self.validate_files()
         self._img_model = AutoModel.from_pretrained('openbmb/MiniCPM-Llama3-V-2_5', trust_remote_code=True,
                                                     torch_dtype=torch.float16)
         self._tokenizer = AutoTokenizer.from_pretrained('openbmb/MiniCPM-Llama3-V-2_5', trust_remote_code=True)
         self._img_model = self._img_model.to("cuda")
         self._img_model.eval()
         self.lectures = {}  # type: dict[int, Lecture]
+
+    def validate_files(self):
+        # check if the self.lecture_topic/data/lectures folder exists
+        if not os.path.exists(f"data/{self.class_topic}"):
+            os.makedirs(f"data/{self.class_topic}/lectures")
+            os.makedirs(f"data/{self.class_topic}/questions")
+            os.makedirs(f"data/{self.class_topic}/assignments")
+            os.makedirs(f"data/{self.class_topic}/store")
+
+        lectures = [lecture for lecture in os.listdir(f"data/{self.class_topic}/lectures") if lecture.endswith(".pdf")]
+        if len(lectures) == 0:
+            raise FileNotFoundError(f"No pdf files found in data/{self.class_topic}/lectures")
+        
+        for lecture in lectures:
+            temp = lecture.split("-")
+            if len(temp) != 2 or not temp[0].isdigit():
+                raise ValueError(f"Error: expected file name to be: number-topic.pdf, found {lecture}")
+            
+        assignments = [assignment for assignment in os.listdir(f"data/{self.class_topic}/assignments") if assignment.endswith(".py")]
+        print(f"Found {len(lectures)} pdf file(s) and {len(assignments)} assignment(s)")
+
+        return lectures
 
     def create_dataset(self, dependencies_map :dict = None):
         """
@@ -63,18 +94,16 @@ class Dataset():
         Returns:
             dict[int, Lecture]: A dictionary of lectures
         """
-        print("Loading files in data/lectures...")
-        dir = os.listdir("data/lectures")
+        print("Loading files")
+        files = self.validate_files()
         page_counter = 0
-        for file in dir:
-            if (file[0].isdigit() is False) or ("-" not in file):
-                raise ValueError("Error: expected file name to be: number-topic")
+        for file in files:
             metadata = file.split("-")
             lecture_num = int(metadata[0])
             topic = metadata[-1].split(".pdf")[0]
 
-            pdf = pymupdf.open("data/" + file)
-            page: pymupdf.Page = None  # for type hinting
+            pdf = pymupdf.open(f"data/{self.class_topic}/lectures/{file}")
+            page = None  # type: pymupdf.Page
             page_counter += pdf.page_count
 
             slides = []
@@ -111,12 +140,24 @@ class Dataset():
 
             self.lectures[lecture_num] = lecture
 
-        with open("data/store/dataset.pkl", "wb") as f:
+        with open(f"data/{self.class_topic}/store/lectures.pkl", "wb") as f:
             pickle.dump(self.lectures, f)
+            if self.add_text:
+                with open(f"data/{self.class_topic}/store/lectures.txt", "w") as f:
+                    for lecture in self.lectures.values():
+                        f.write("[Lecture Start]\n\n")
+                        f.write(f"------------{lecture.topic}------------\n")
+                        f.write(f"{lecture.content}")
+                        if lecture.dependencies:
+                            for dep in lecture.dependencies:
+                                f.write("\n\n")
+                                f.write(f"{dep}")
+                        f.write("[Lecture End]\n\n")
 
         if dependencies_map:
             self.add_dependencies(dependencies_map)
-        print("Successfully loaded {} pdfs with a total of {} pages".format(len(dir), page_counter))
+
+        print("Successfully loaded {} pdfs with a total of {} pages".format(len(files), page_counter))
         return self.lectures
 
     def cleanup_text(self, text: str):
@@ -125,7 +166,7 @@ class Dataset():
         completion = client.chat.completions.create(
             model=MODEL,
             messages=[
-                {"role": "system", "content": """You review text related to a NLP lecture and clean it up for better 
+                {"role": "system", "content": f"""You review text related to a {self.class_topic} lecture and clean it up for better 
                 readability. You never change the meaning of the text, only the structure and style. You never reword 
                 any technical terms or concepts. You only reformat the text to make it more readable. Incase you 
                 encounter non sense letters you can remove it."""},
@@ -142,7 +183,7 @@ class Dataset():
             topic (str): The topic of the lectur
             img (Image): The image to describe
         """
-        prompt = "describe what you see knowing we are in a NLP lecture"
+        prompt = f"describe what you see knowing we are in a {self.class_topic} lecture"
         messages = [
             {"role": "user", "content": f"The lecture is about the topic: {topic}"},
             {"role": "user", "content": prompt}
@@ -167,21 +208,14 @@ class Dataset():
         Returns:
             dict[int, Lecture]: The lectures with dependencies added
         """
-        lectures = pickle.load(open("data/store/dataset.pkl", "rb"))
-        dependencies = {
-            "1_BytePairEncoding.py": [1],  # excersise 1 depends on lecture 1
-            "2_N-Grams.ip.py": [2],  # excersise 2 depends on lecture 2
-            "3_SimpleEmbeddings.py": [3, 4],  # excersise 3 depends on lecture 3 and 4
-            "4_VectorSimilarity.py": [5, 6],  # excersise 4 depends on lecture 5 and 6
-            "5_Neural_Language_Model.py": [7],  # excersise 5 depends on lecture 7
-            "6_Keywords.py": []  # 6 is a standalone excersise
-        }
+        lectures = pickle.load(open(f"data/{self.class_topic}/store/lectures.pkl", "rb"))  # type: dict[int, Lecture]
+
         for lecture in lectures.values():
             lecture.dependencies = None
 
         for k, v in depenencies_map.items():
             # add standalone excersises to the first lecture
-            assignment = open(f"data/assignments/{k}", "r").read()
+            assignment = open(f"data/{self.class_topic}/assignments/{k}", "r").read()
             assignment = "[Code Start]\n\n" + assignment + "\n\n[Code End]"
             if len(v) == 0:
                 if lectures[0].dependencies is None:
@@ -195,7 +229,7 @@ class Dataset():
                 else:
                     lectures[i].dependencies.append(assignment)
 
-        with open("data/store/dataset.pkl", "wb") as f:
+        with open(f"data/{self.class_topic}/store/lectures.pkl", "wb") as f:
             pickle.dump(lectures, f)
 
         return lectures
@@ -203,29 +237,37 @@ class Dataset():
 
 class QuestionsGenerator():
 
-    def __init__(self, base_url=None, api_key=None, model=None):
+    def __init__(self, class_topic: str ,lectures: dict[int, Lecture], base_url=None, api_key=None, model=None):
         """
         Args:
+            class_topic (str): The topic of the class
+            lectures (dict[int, Lecture]): A dictionary of lectures to generate questions from
             base_url (str): The base url for the openai api
             api_key (str): The api key for the openai api
             model (str): The model to use for generating questions
         """
+        self.lectures = lectures
+        self.class_topic = class_topic
+
+        if not os.path.exists(f"data/{self.class_topic}"):
+            raise FileNotFoundError(f"Folder data/{self.class_topic} does not exist. Please create the dataset first.")
+        
         if base_url is None:
             base_url = BASE_URL
         if api_key is None:
             api_key = API_KEY
         if model is None:
             model = MODEL
-        print(base_url, api_key, model)
+
         self.client = OpenAI(base_url=base_url, api_key=api_key)
         self.model = model
 
-    def generate(self, prompt):
+    def generate(self, prompt, class_topic):
         return self.client.chat.completions.create(
             model=self.model,
             messages=[
                 {"role": "system",
-                 "content": "You are a Professor. Your task is to setup questions for an upcoming NLP quiz/examination."
+                 "content": f"You are a Professor. Your task is to setup questions for an upcoming {class_topic} quiz/examination."
                             "The questions should be diverse in nature across the slides. Restrict the questions to "
                             "the context information provided."},
                 {"role": "user", "content": prompt}
@@ -233,8 +275,7 @@ class QuestionsGenerator():
             temperature=0.7,
         )
 
-    def generate_questions(self, num_questions=[5], mc_questions=[1], code_questions=[1], verbose=False) \
-            -> list[Questions]:
+    def generate_questions(self, num_questions=[5], mc_questions=[1], code_questions=[1], verbose=False) -> list[Questions]:
         """
         Generate questions for each lecture in the dataset
 
@@ -244,8 +285,7 @@ class QuestionsGenerator():
             code_questions ([int]): Numbers of coding questions to generate for each lecture
             verbose (bool): Print questions to console
         """
-        lectures = pickle.load(open("data/store/dataset.pkl", "rb"))  # type: list[Lecture]
-        lectures = list(lectures.values())
+        lectures = list(self.lectures.values())
 
         if len(num_questions) == 1:  # uniform distribution
             num_questions = num_questions * len(lectures)
@@ -304,23 +344,9 @@ class QuestionsGenerator():
                 print(lecture_questions)
                 print(total_tokens)
                 print("\n\n")
-
-            with open(f"data/questions/{lecture.topic}.txt", "w", encoding="utf-8") as f:
+            
+            with open(f"data/{self.class_topic}/questions/{lecture.topic}.txt", "w") as f:
                 f.write(str(lecture_questions))
 
-        pickle.dump(module_questions, open("data/store/questions.pkl", "wb"))
+        pickle.dump(module_questions, open(f"data/{self.class_topic}/store/questions.pkl", "wb"))
         return module_questions
-
-
-if __name__ == "__main__":
-    lectures = pickle.load(open("data/store/dataset.pkl", "rb"))
-    with open("data/store/data.txt", "w", encoding="utf-8") as f:
-        for lecture in lectures.values():
-            f.write("[Lecture Start]\n\n")
-            f.write(f"------------{lecture.topic}------------\n")
-            f.write(f"{lecture.content}")
-            if lecture.dependencies:
-                for dep in lecture.dependencies:
-                    f.write("\n\n")
-                    f.write(f"{dep}")
-            f.write("[Lecture End]\n\n")
